@@ -195,7 +195,7 @@
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     // Root path se direct data/tender.json load karein
-    fetch('data/tender.json')
+    fetch('/public/data/tender.json')
       .then(response => {
         if (!response.ok) {
           throw new Error("JSON file could not be loaded");

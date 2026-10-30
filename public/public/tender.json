@@ -1,0 +1,23 @@
+[
+  {
+    "title": "Municipal Highway Extension Phase 2",
+    "location": "Zone A North",
+    "budget": "₹45,000,000",
+    "deadline": "Nov 15, 2026",
+    "win_probability": "88"
+  },
+  {
+    "title": "Smart City Commercial Complex Development",
+    "location": "Downtown Metro",
+    "budget": "₹120,000,000",
+    "deadline": "Nov 22, 2026",
+    "win_probability": "64"
+  },
+  {
+    "title": "District Drainage Infrastructure Repair",
+    "location": "East Sector",
+    "budget": "₹8,500,000",
+    "deadline": "Dec 02, 2026",
+    "win_probability": "92"
+  }
+]

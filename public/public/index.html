@@ -65,19 +65,67 @@
 </div>
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    // Injected Real-Style Assam & Udalguri Government Procurement Data
-    document.getElementById("small-tenders-body").innerHTML = `
-        <tr><td><strong>Procurement of Medical Office Supplies & Diagnostics</strong><br><small>📍 Location: Tangla CHC & Udalguri Civil Hospital</small></td><td><span class="budget-badge">₹18,40,000</span></td><td>National Health Mission (NHM) Assam</td><td><a href="https://gem.gov.in" target="_blank" class="bid-btn">Official Govt Link</a></td></tr>
-        <tr><td><strong>Construction of Modern Paver Block Footpaths & Drainage</strong><br><small>📍 Location: Udalguri Town Ward No. 4 & 7</small></td><td><span class="budget-badge">₹32,50,000</span></td><td>Udalguri Municipal Board</td><td><a href="https://assamtenders.gov.in" target="_blank" class="bid-btn">Official Govt Link</a></td></tr>`;
-    
-    document.getElementById("medium-tenders-body").innerHTML = `
-        <tr><td><strong>Solar Pump Integration & Deep Tube Well Scheme</strong><br><small>📍 Location: Mazbat, Udalguri District</small></td><td><span class="budget-badge">₹88,20,000</span></td><td>Assam Irrigation Department</td><td><a href="https://assamtenders.gov.in" target="_blank" class="bid-btn">Official Govt Link</a></td></tr>
-        <tr><td><strong>Supply & Installation of Solar Street Lighting Systems</strong><br><small>📍 Location: Rural Market Places, Udalguri (BTR)</small></td><td><span class="budget-badge">₹1,20,00,000</span></td><td>Bodoland Territorial Region (BTR) Fund</td><td><a href="https://assamtenders.gov.in" target="_blank" class="bid-btn">Official Govt Link</a></td></tr>`;
-    
-    document.getElementById("mega-tenders-body").innerHTML = `
-        <tr><td><strong>Improvement of Road from Udalguri Town to Rowta (MB Road)</strong><br><small>📍 Location: Udalguri, Assam Stretch</small></td><td><span class="budget-badge">₹4,85,50,000</span></td><td>Assam PWD (Roads)</td><td><a href="https://assamtenders.gov.in" target="_blank" class="bid-btn">Official Govt Link</a></td></tr>`;
-    
-    document.getElementById("others-tenders-body").innerHTML = `<tr><td colspan="4" style="text-align:center; color:#555;">No extra secondary tenders filtered today for Udalguri Region.</td></tr>`;
+    // Fetch data automatically from external tenders.json database
+    fetch('tenders.json')
+      .then(response => response.json())
+      .then(tenders => {
+        // Clear old sample records
+        document.getElementById("small-tenders-body").innerHTML = "";
+        document.getElementById("medium-tenders-body").innerHTML = "";
+        document.getElementById("mega-tenders-body").innerHTML = "";
+        document.getElementById("others-tenders-body").innerHTML = "";
+
+        let hasOthers = false;
+
+        tenders.forEach(tender => {
+          // Clean budget string to number for exact filtering (e.g., remove ₹ and commas)
+          const cleanBudget = parseInt(tender.budget.replace(/[^0-9]/g, ''), 10);
+          
+          // Generate customized color code for AI Win Probability Badge
+          let probColor = "#d32f2f"; // Red for lower
+          if (parseInt(tender.win_probability) >= 85) probColor = "#2e7d32"; // Green for high
+          else if (parseInt(tender.win_probability) >= 60) probColor = "#f57c00"; // Orange for medium
+
+          // Standard row HTML blueprint structure
+          const rowHtml = `
+            <tr>
+              <td>
+                <strong>${tender.title}</strong><br>
+                <small>📍 Location: ${tender.location}</small><br>
+                <small style="color: #666;">⏳ Deadline: <strong>${tender.deadline}</strong></small>
+              </td>
+              <td>
+                <span class="budget-badge">${tender.budget}</span><br>
+                <small style="display:inline-block; margin-top:5px; background:${probColor}; color:white; padding:2px 6px; border-radius:3px; font-size:11px; font-weight:bold;">
+                  AI Win Probability: ${tender.win_probability}%
+                </small>
+              </td>
+              <td>${tender.department || 'Government Source'}</td>
+              <td><a href="${tender.link || 'https://assamtenders.gov.in'}" target="_blank" class="bid-btn">Official Govt Link</a></td>
+            </tr>
+          `;
+
+          // Automatic Smart Budget Routing Pipeline
+          if (cleanBudget <= 5000000) {
+            document.getElementById("small-tenders-body").innerHTML += rowHtml;
+          } else if (cleanBudget > 5000000 && cleanBudget <= 20000000) {
+            document.getElementById("medium-tenders-body").innerHTML += rowHtml;
+          } else if (cleanBudget > 20000000) {
+            document.getElementById("mega-tenders-body").innerHTML += rowHtml;
+          } else {
+            document.getElementById("others-tenders-body").innerHTML += rowHtml;
+            hasOthers = true;
+          }
+        });
+
+        if (!hasOthers) {
+          document.getElementById("others-tenders-body").innerHTML = `<tr><td colspan="4" style="text-align:center; color:#555;">No extra secondary tenders filtered today for Udalguri Region.</td></tr>`;
+        }
+      })
+      .catch(error => {
+        console.error("Error loading tender database:", error);
+        document.getElementById("small-tenders-body").innerHTML = `<tr><td colspan="4" style="text-align:center; color:red;">Failed to auto-load tenders.json database. Please check file placement.</td></tr>`;
+      });
   });
 </script>
 </body>

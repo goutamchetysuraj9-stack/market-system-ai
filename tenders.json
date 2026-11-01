@@ -1,92 +1,38 @@
 [
   {
-    "title": "Construction of Toilet Block at Mohanpur ME School, Udalguri",
-    "budget": 1500000,
-    "budgetText": "₹15.00 Lakh",
-    "department": "Dharti Aaba Janjatiya Gram Utkarsh Abhiyan",
-    "district": "Udalguri",
-    "category": "small",
+    "title": "Improvement of Road from Udalguri Town to Rowta (MB Road) - Phase II",
+    "location": "Udalguri, Assam Stretch",
+    "budget": "₹4,85,50,000",
+    "department": "Assam PWD (Roads)",
+    "deadline": "Nov 25, 2026",
+    "win_probability": "88",
     "link": "https://assamtenders.gov.in"
   },
   {
-    "title": "Construction of Cement Concrete Block Road from Punia Bori Chuba to Warpara, Bhakatpara",
-    "budget": 8000000,
-    "budgetText": "₹80.00 Lakh",
-    "department": "PWD Road Work / SOPD (BTC)",
-    "district": "Darrang",
-    "category": "medium",
+    "title": "Solar Pump Integration & Deep Tube Well Scheme",
+    "location": "Mazbat, Udalguri District",
+    "budget": "₹8,820,000",
+    "department": "Assam Irrigation Department",
+    "deadline": "Nov 20, 2026",
+    "win_probability": "92",
     "link": "https://assamtenders.gov.in"
   },
   {
-    "title": "Major Block Pavement from Khasibari to Hahchara Road, Udalguri District",
-    "budget": 13000000,
-    "budgetText": "₹1.30 Crore",
-    "department": "SOPD (BTC) Major Roadways",
-    "district": "Udalguri",
-    "category": "medium",
+    "title": "Supply & Installation of Solar Street Lighting Systems",
+    "location": "Rural Market Places, Udalguri (BTR)",
+    "budget": "₹12,00,000",
+    "department": "Bodoland Territorial Region (BTR) Fund",
+    "deadline": "Nov 30, 2026",
+    "win_probability": "64",
     "link": "https://assamtenders.gov.in"
   },
   {
-    "title": "Establishment and Construction of Vocational Training Centre Building, Udalguri",
-    "budget": 150400000,
-    "budgetText": "₹15.04 Crore",
-    "department": "Building & Institutional Dev (BTC)",
-    "district": "Udalguri",
-    "category": "mega",
-    "link": "https://assamtenders.gov.in"
-  },
-  {
-    "title": "Installation of Deep Tube Well and Pipeline System at Tangla Town",
-    "budget": 3500000,
-    "budgetText": "₹35.00 Lakh",
-    "department": "Public Health Engineering (PHE)",
-    "district": "Udalguri",
-    "category": "small",
-    "link": "https://assamtenders.gov.in"
-  },
-  {
-    "title": "Renovation and Repair of Government Quarter Blocks at Mazbat",
-    "budget": 1200000,
-    "budgetText": "₹12.00 Lakh",
-    "department": "P&RD Department Assam",
-    "district": "Udalguri",
-    "category": "small",
-    "link": "https://assamtenders.gov.in"
-  },
-  {
-    "title": "Construction of RCC Bridge over Local Stream on Orang-Mazbat Road",
-    "budget": 18500000,
-    "budgetText": "₹1.85 Crore",
-    "department": "PWD Bridges Division",
-    "district": "Udalguri",
-    "category": "medium",
-    "link": "https://assamtenders.gov.in"
-  },
-  {
-    "title": "Supply and Commissioning of Solar Street Lights in Rural Market Places",
-    "budget": 6500000,
-    "budgetText": "₹65.00 Lakh",
-    "department": "Assam Energy Development Agency",
-    "district": "Sonitpur",
-    "category": "medium",
-    "link": "https://assamtenders.gov.in"
-  },
-  {
-    "title": "Emergency Flood Damage Repair of Embankment along Dhansiri River",
-    "budget": 24000000,
-    "budgetText": "₹2.40 Crore",
-    "department": "Water Resources Department",
-    "district": "Udalguri",
-    "category": "mega",
-    "link": "https://assamtenders.gov.in"
-  },
-  {
-    "title": "Supply of Multi-Lingual Digital Information Kits for Local Centers",
-    "budget": 0,
-    "budgetText": "As per Official PDF",
-    "department": "Supplies / Others",
-    "district": "Guwahati",
-    "category": "others",
+    "title": "Construction of Multi-Purpose Community Hall at Tangla",
+    "location": "Tangla, Udalguri",
+    "budget": "₹4,500,000",
+    "department": "Udalguri Municipal Board",
+    "deadline": "Dec 05, 2026",
+    "win_probability": "75",
     "link": "https://assamtenders.gov.in"
   }
 ]

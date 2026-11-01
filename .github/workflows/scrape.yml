@@ -1,118 +1,34 @@
-import os
-import json
-import datetime
-import requests
-from bs4 import BeautifulSoup
+name: Automated Tender Scraper
 
-def fetch_assam_tenders():
-    print("Fetching Assam Tenders...")
-    tenders_list = []
-    
-    # Assam Tenders Portal URL (Public Search/Latest Tenders page)
-    # Note: Real scraping targets the specific active listings endpoint
-    url = "https://assamtenders.gov.in"
-    
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
-    }
-    
-    try:
-        response = requests.get(url, headers=headers, timeout=15)
-        if response.status_code == 200:
-            soup = BeautifulSoup(response.text, 'html.parser')
-            
-            # HTML content parsing logic
-            # Hum local keywords filter lagate hain: Udalguri, PWD, Irrigation
-            keywords = ["udalguri", "pwd", "irrigation", "assam"]
-            
-            # Sample structure extraction (Website layout ke anusar rows trace karna)
-            rows = soup.find_all('tr')
-            for row in rows:
-                text = row.get_text().lower()
-                if any(keyword in text for keyword in keywords):
-                    cols = row.find_all('td')
-                    if len(cols) >= 3:
-                        title = cols[1].get_text(strip=True)
-                        link = cols[1].find('a')['href'] if cols[1].find('a') else url
-                        date_str = datetime.date.today().strftime("%Y-%m-%d")
-                        
-                        tenders_list.append({
-                            "title": title,
-                            "location": "Udalguri / Assam",
-                            "source": "Assam Tenders",
-                            "date": date_str,
-                            "link": link if link.startswith("http") else f"https://assamtenders.gov.in{link}"
-                        })
-    except Exception as e:
-        print(f"Error fetching Assam Tenders: {e}")
-        
-    return tenders_list
+on:
+  schedule:
+    - cron: '0 18 * * *' # Daily raat ke 11:30 baje IST par automatic chalega
+  workflow_dispatch: # Isse aapko manual "Run workflow" ka button mil jayega
 
-def fetch_gem_tenders():
-    print("Fetching GeM Portal Tenders...")
-    tenders_list = []
-    url = "https://gem.gov.in"
-    
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
-    }
-    
-    try:
-        response = requests.get(url, headers=headers, timeout=15)
-        if response.status_code == 200:
-            soup = BeautifulSoup(response.text, 'html.parser')
-            # GeM portal bid rows logic
-            cards = soup.find_all('div', class_='border')
-            for card in cards:
-                text = card.get_text().lower()
-                if "assam" in text or "udalguri" in text:
-                    title_element = card.find('p', class_='title')
-                    title = title_element.get_text(strip=True) if title_element else "GeM Local Contract"
-                    
-                    tenders_list.append({
-                        "title": title,
-                        "location": "Assam",
-                        "source": "GeM Portal",
-                        "date": datetime.date.today().strftime("%Y-%m-%d"),
-                        "link": url
-                    })
-    except Exception as e:
-        print(f"Error fetching GeM Tenders: {e}")
-        
-    return tenders_list
+jobs:
+  scrape-and-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository Code
+        uses: actions/checkout@v4
 
-def main():
-    # Dono portals se data collect karna
-    assam_data = fetch_assam_tenders()
-    gem_data = fetch_gem_tenders()
-    
-    all_tenders = assam_data + gem_data
-    
-    # Agar online scraper me zero data mile toh temporary sample data setup karega taaki front-end blank na dikhe
-    if not all_tenders:
-        all_tenders = [
-            {
-                "title": "Construction of PWD Road under Udalguri Division",
-                "location": "Udalguri",
-                "source": "Assam Tenders",
-                "date": datetime.date.today().strftime("%Y-%m-%d"),
-                "link": "https://assamtenders.gov.in"
-            },
-            {
-                "title": "Supply of Irrigation Equipment and PVC Pipes",
-                "location": "Udalguri District",
-                "source": "GeM Portal",
-                "date": datetime.date.today().strftime("%Y-%m-%d"),
-                "link": "https://gem.gov.in"
-            }
-        ]
-    
-    # tenders.json file me save karna
-    output_file = "tenders.json"
-    with open(output_file, "w", encoding="utf-8") as f:
-        json.dump(all_tenders, f, indent=4, ensure_ascii=False)
-        
-    print(f"Successfully saved {len(all_tenders)} tenders to {output_file}")
+      - name: Set Up Python Environment
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
 
-if __name__ == "__main__":
-    main()
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4
+
+      - name: Run Scraper Script
+        run: python scraper.py
+
+      - name: Commit and Push Updated Tenders Data
+        run: |
+          git config --global user.name "GitHub Action Bot"
+          git config --global user.email "actions@github.com"
+          git add public/tenders.json || git add tenders.json
+          git commit -m "Automated Data Matrix Update [Skip CI]" || echo "No changes to commit"
+          git push

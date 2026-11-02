@@ -47,13 +47,21 @@
         
         .probability { font-weight: 700; color: var(--success); display: inline-flex; align-items: center; margin: 0.5rem 0; padding: 0.25rem 0.5rem; background: #f0fdf4; border-radius: 4px; font-size: 0.9rem; }
         .probability.warning { color: var(--warning); background: #fffbeb; }
-        .gov-link { display: inline-block; margin-top: 0.5rem; color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
         
-        .no-data { color: #64748b; font-style: italic; padding: 1.5rem 0; }
+        /* Interactive Action Button Design across Web Engine Grid */
+        .gov-link { display: inline-block; margin-top: 0.75rem; background: var(--accent); color: white !important; text-decoration: none; font-weight: 700; font-size: 0.85rem; padding: 0.6rem 1.2rem; border-radius: 4px; text-align: center; width: 100%; transition: background 0.2s; box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2); }
+        .gov-link:hover { background: #1d4ed8; text-decoration: none; box-shadow: 0 4px 6px rgba(29, 78, 216, 0.3); }
+        
+        .no-data { color: #64748b; font-style: italic; padding: 1rem 0; font-size: 0.9rem; }
 
         section { background: white; padding: 2rem; border-radius: 8px; margin-bottom: 2.5rem; border: 1px solid var(--border); }
+        section ul, section ol { padding-left: 1.25rem; }
+        section li { margin-bottom: 1rem; font-size: 0.95rem; line-height: 1.6; }
         
-        /* Privacy Policy Modal Window CSS */
+        /* Secondary Link Engine elements */
+        .inline-link { color: var(--accent); text-decoration: none; font-weight: 600; }
+        .inline-link:hover { text-decoration: underline; }
+
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); overflow-y: auto; }
         .modal-content { background-color: white; margin: 5% auto; padding: 2.5rem; border-radius: 8px; max-width: 800px; border: 1px solid var(--border); }
         .close-btn { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
@@ -64,7 +72,7 @@
         .footer-col h4 { color: #f1f5f9; margin-bottom: 1.25rem; font-size: 0.95rem; font-weight: 700; text-transform: uppercase; }
         .footer-col ul { list-style: none; padding: 0; }
         .footer-col ul li { margin-bottom: 0.75rem; }
-        .footer-col ul li a { color: #94a3b8; text-decoration: none; cursor: pointer; }
+        .footer-col ul li a { color: #94a3b8; text-decoration: none; cursor: pointer; transition: color 0.2s; }
         .footer-col ul li a:hover { color: white; }
         
         .copyright { text-align: center; margin-top: 2rem; color: #64748b; font-size: 0.8rem; }
@@ -124,31 +132,17 @@
             </div>
         </div>
 
-        <!-- MSME SECTION -->
+        <!-- MSME SECTION WITH LIVE CLICKABLE LINKS -->
         <section id="msme-niche">
             <h2>🎯 MSME Niche Focus & Reserved Gateways</h2>
             <ul>
-                <li><strong>EMD Validation Rules:</strong> Dynamic tender fee waivers and Earnest Money Deposit (EMD) exemptions for rural micro/small business units under active Assam state procurement lines.</li>
-                <li><strong>BTC Special Quotas:</strong> Reserved contract clusters mapping dedicated allocations for indigenous local contractors within the Bodoland Territorial Region (BTR).</li>
+                <li><strong>EMD Validation Rules:</strong> Dynamic tender fee waivers and Earnest Money Deposit (EMD) exemptions for rural micro/small business units under active Assam state procurement lines. Verify rules on the official <a href="https://assam.gov.in" target="_blank" class="inline-link">Assam Tenders Portal →</a></li>
+                <li><strong>BTC Special Quotas:</strong> Reserved contract clusters mapping dedicated allocations for indigenous local contractors within the Bodoland Territorial Region (BTR). View guidelines via <a href="https://bodoland.gov.in" target="_blank" class="inline-link">BTR Council Site →</a></li>
             </ul>
         </section>
 
+        <!-- OPERATIONS SECTION WITH LIVE CLICKABLE LINKS -->
         <section id="protocols">
             <h2>⚙️ How to Apply (Udalguri Regional Tenders)</h2>
             <ol>
-                <li><strong>Cryptographic Authorization:</strong> Secure a valid Class-III Digital Signature Certificate (DSC) necessary for executing technical transaction bids.</li>
-                <li><strong>Panel Enrolment Protocols:</strong> Contractors must possess certified active registration tracks within the Assam PWD cell, Irrigation grid, or local municipal boards.</li>
-            </ol>
-        </section>
-    </div>
-
-    <!-- DYNAMIC LEGAL PRIVACY DIALOG MODAL -->
-    <div id="legalModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="toggleModal(false)">&times;</span>
-            <h2 style="border:none;">Legal Data Accuracy & Compliance Disclaimer</h2>
-            <p>Welcome to MARKET SYSTEM AI (LMO-AI). The information displayed on this dashboard is automatically collected, processed, and compiled from publicly available government procurement portals.</p>
-            <br>
-            <p><strong>Official Association Status Notice:</strong> This platform is strictly an independent informational utility dashboard designed for small businesses and local contractors. We are NOT affiliated, associated, authorized, endorsed by, or in any way officially connected with any government organization, ministry, state department, or central authority of India.</p>
-            <br>
-            <h3>Privacy Policy & Cookie Configuration</h3>
+                <li><strong>Cryptographic Authorization:</strong> Secure a valid Class-III Digital Signature Certificate (DSC) necessary for executing technical transaction bids. Check empanelled vendors at <a href="https://cca.gov.in" target="_blank" class="inline-link">CCA India Grid →</a></li>

@@ -4,33 +4,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LMO-AI | Assam & Udalguri Public Procurement & Tender Intelligence Dashboard</title>
+    <!-- AdSense Verification Auto-Ads Script Configuration -->
+    <script async src="https://googlesyndication.com" crossorigin="anonymous"></script>
     <style>
         :root {
-            --primary: #1e293b;
+            --primary: #0f172a;
+            --secondary: #1e293b;
             --accent: #2563eb;
             --success: #16a34a;
+            --warning: #d97706;
             --bg: #f8fafc;
-            --text: #0f172a;
+            --text: #334155;
+            --text-dark: #0f172a;
+            --border: #e2e8f0;
         }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; }
-        header { background: var(--primary); color: white; padding: 1.5rem; text-align: center; }
-        nav { display: flex; justify-content: center; background: #0f172a; padding: 0.75rem; gap: 1.5rem; }
-        nav a { color: #cbd5e1; text-decoration: none; font-size: 0.95rem; font-weight: 500; }
+        * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
+        
+        header { background: var(--primary); color: white; padding: 2.5rem 1rem; text-align: center; border-bottom: 1px solid #1e293b; }
+        header h1 { font-size: 2rem; font-weight: 800; letter-spacing: 0.05em; color: #f1f5f9; }
+        header p { color: #94a3b8; font-size: 1rem; margin-top: 0.5rem; }
+        
+        nav { display: flex; justify-content: center; background: var(--secondary); padding: 0.85rem 1rem; gap: 1.75rem; flex-wrap: wrap; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border-bottom: 2px solid var(--accent); }
+        nav a { color: #cbd5e1; text-decoration: none; font-size: 0.95rem; font-weight: 600; padding: 0.25rem 0.5rem; transition: color 0.2s; }
         nav a:hover { color: white; }
-        .container { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
-        .card { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border-top: 4px solid var(--accent); }
-        .probability { font-size: 1.25rem; font-weight: bold; color: var(--success); }
-        .badge { background: #e2e8f0; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem; }
-        section { background: white; padding: 2rem; border-radius: 8px; margin-bottom: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-        footer { background: var(--primary); color: #94a3b8; padding: 3rem 1rem 1.5rem; font-size: 0.9rem; margin-top: 5rem; }
-        .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; border-bottom: 1px solid #334155; padding-bottom: 2rem; }
-        .footer-col h4 { color: white; margin-bottom: 1rem; }
-        .footer-col ul { list-style: none; padding: 0; margin: 0; }
-        .footer-col ul li { margin-bottom: 0.5rem; }
-        .footer-col ul li a { color: #94a3b8; text-decoration: none; }
+        
+        .container { max-width: 1200px; margin: 2.5rem auto; padding: 0 1.5rem; }
+        
+        /* Filter Control Panel Styling */
+        .filter-panel { background: white; padding: 1.25rem; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 2rem; display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+        .filter-panel label { font-weight: 600; color: var(--text-dark); font-size: 0.95rem; }
+        .filter-panel select { padding: 0.5rem 1rem; border-radius: 4px; border: 1px solid var(--border); font-size: 0.9rem; background: var(--bg); font-weight: 600; color: var(--text-dark); cursor: pointer; outline: none; }
+        .filter-panel select:focus { border-color: var(--accent); }
+
+        h2 { font-size: 1.5rem; color: var(--text-dark); margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border); display: flex; align-items: center; gap: 0.5rem; }
+        
+        .adsense-horizontal { background: #ffffff; border: 1px dashed #cbd5e1; border-radius: 6px; padding: 1rem; text-align: center; margin-bottom: 2.5rem; min-height: 90px; color: #94a3b8; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 3.5rem; }
+        .card { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03); border: 1px solid var(--border); border-top: 4px solid var(--accent); transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; justify-content: space-between; }
+        .card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); }
+        .badge { background: #eff6ff; color: var(--accent); font-weight: 700; padding: 0.25rem 0.6rem; border-radius: 4px; font-size: 0.75rem; text-transform: uppercase; display: inline-block; margin-bottom: 0.75rem; align-self: flex-start; }
+        .card h3 { font-size: 1.1rem; color: var(--text-dark); margin-bottom: 0.75rem; line-height: 1.4; }
+        .card-details { margin-bottom: 1rem; }
+        .card p { font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--text); }
+        .card p strong { color: var(--text-dark); }
+        .probability { font-weight: 700; color: var(--success); display: inline-flex; align-items: center; margin: 0.5rem 0; padding: 0.25rem 0.5rem; background: #f0fdf4; border-radius: 4px; font-size: 0.9rem; width: fit-content; }
+        .probability.warning { color: var(--warning); background: #fffbeb; }
+        .gov-link { display: inline-block; margin-top: 0.5rem; color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+        .gov-link:hover { text-decoration: underline; }
+        
+        .no-data { text-align: center; color: #64748b; font-style: italic; padding: 2rem; grid-column: 1 / -1; }
+
+        section { background: white; padding: 2rem; border-radius: 8px; margin-bottom: 2.5rem; border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
+        section ul, section ol { padding-left: 1.25rem; }
+        section li { margin-bottom: 1rem; font-size: 0.95rem; line-height: 1.6; }
+        section li strong { color: var(--text-dark); }
+        
+        footer { background: var(--primary); color: #94a3b8; padding: 3.5rem 1.5rem 2rem; font-size: 0.85rem; border-top: 4px solid var(--accent); }
+        .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2.5rem; border-bottom: 1px solid #1e293b; padding-bottom: 2.5rem; }
+        .footer-col h4 { color: #f1f5f9; margin-bottom: 1.25rem; font-size: 0.95rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+        .footer-col p { line-height: 1.6; }
+        .footer-col ul { list-style: none; padding: 0; }
+        .footer-col ul li { margin-bottom: 0.75rem; }
+        .footer-col ul li a { color: #94a3b8; text-decoration: none; transition: color 0.2s; }
         .footer-col ul li a:hover { color: white; }
-        .copyright { text-align: center; margin-top: 1.5rem; color: #64748b; font-size: 0.8rem; }
+        .footer-col ul strong { color: #cbd5e1; }
+        
+        .copyright { text-align: center; margin-top: 2rem; color: #64748b; font-size: 0.8rem; }
     </style>
 </head>
 <body>
@@ -50,45 +91,37 @@
 
     <div class="container">
         
-        <!-- LIVE TENDERS GRID -->
+        <!-- Top AdSense Banner Placeholder -->
+        <div class="adsense-horizontal">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="XXXXXXXXXX"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+
+        <!-- LIVE CONFIGURATION FILTERS -->
+        <div class="filter-panel">
+            <label for="districtFilter">📍 Select Region / District Filter:</label>
+            <select id="districtFilter" onchange="filterTenders()">
+                <option value="ALL">✨ Show All Districts (Pure Assam Grid)</option>
+                <option value="Udalguri">Udalguri (Local Core)</option>
+                <option value="Kokrajhar">Kokrajhar</option>
+                <option value="Baksa">Baksa</option>
+                <option value="Chirang">Chirang</option>
+                <option value="Kamrup Metro">Kamrup Metro (Guwahati Area)</option>
+                <option value="Nalbari">Nalbari</option>
+            </select>
+        </div>
+
+        <!-- LIVE TENDERS GRID CONTAINER -->
         <h2 id="tenders">Live Sync Active Contracts & Tenders</h2>
-        <div class="grid">
-            <div class="card">
-                <span class="badge">PWD (Roads)</span>
-                <h3>Road Improvement: Udalguri Town to Rowta</h3>
-                <p>📍 Location: Udalguri Stretch</p>
-                <p><b>Value: ₹4,85,50,000</b></p>
-                <p>⏳ Deadline: Nov 25, 2026</p>
-                <p class="probability">Win Probability: 88%</p>
-                <a href="#">Official Govt Link →</a>
-            </div>
-            <div class="card">
-                <span class="badge">Irrigation</span>
-                <h3>Solar Pump Integration & Deep Tube Well</h3>
-                <p>📍 Location: Mazbat, Udalguri</p>
-                <p><b>Value: ₹88,20,000</b></p>
-                <p>⏳ Deadline: Nov 20, 2026</p>
-                <p class="probability">Win Probability: 92%</p>
-                <a href="#">Official Govt Link →</a>
-            </div>
-            <div class="card">
-                <span class="badge">BTR Fund</span>
-                <h3>Supply & Installation of Solar Street Lights</h3>
-                <p>📍 Location: Rural Markets, Udalguri</p>
-                <p><b>Value: ₹12,00,000</b></p>
-                <p>⏳ Deadline: Nov 30, 2026</p>
-                <p class="probability" style="color: #d97706;">Win Probability: 64%</p>
-                <a href="#">Official Govt Link →</a>
-            </div>
-            <div class="card">
-                <span class="badge">Municipal Board</span>
-                <h3>Multi-Purpose Community Hall at Tangla</h3>
-                <p>📍 Location: Tangla, Udalguri</p>
-                <p><b>Value: ₹45,00,000</b></p>
-                <p>⏳ Deadline: Dec 05, 2026</p>
-                <p class="probability">Win Probability: 75%</p>
-                <a href="#">Official Govt Link →</a>
-            </div>
+        <div class="grid" id="tendersGrid">
+            <!-- JavaScript will dynamically populate raw cards here -->
         </div>
 
         <!-- MSME SECTION -->
@@ -100,55 +133,25 @@
             </ul>
         </section>
 
-        <!-- APPLICATION PROTOCOLS -->
         <section id="protocols">
             <h2>⚙️ How to Apply (Udalguri Regional Tenders)</h2>
             <ol>
-                <li><strong>Cryptographic Authorization:</strong> Secure a valid Class-III Digital Signature Certificate (DSC) necessary for executing transaction bids.</li>
+                <li><strong>Cryptographic Authorization:</strong> Secure a valid Class-III Digital Signature Certificate (DSC) necessary for executing technical transaction bids.</li>
                 <li><strong>Panel Enrolment Protocols:</strong> Contractors must possess certified active registration tracks within the Assam PWD cell, Irrigation grid, or local municipal boards.</li>
             </ol>
         </section>
-
     </div>
 
-    <!-- INTEGRATED EXPANDED FOOTER -->
     <footer>
         <div class="footer-grid">
             <div class="footer-col" id="about">
                 <h4>ℹ️ About LMO-AI</h4>
-                <p style="font-size: 0.85rem; line-height: 1.4;">Market System AI (LMO-AI) is an automated tracking protocol purpose-built for real-time tender intelligence across Assam and the Bodoland Territorial Region (BTR) councils, pulling direct data feeds via cryptographically verified government portals.</p>
+                <p>Market System AI (LMO-AI) is an automated tracking protocol purpose-built for real-time tender intelligence across Assam and the Bodoland Territorial Region (BTR) councils, pulling direct data feeds via cryptographically verified government portals.</p>
             </div>
+            
             <div class="footer-col">
                 <h4>🎯 MSME Niche Options</h4>
                 <ul>
                     <li><a href="#msme-niche">Udyam Registration Setup</a></li>
                     <li><a href="#msme-niche">EMD Exemption Verifier</a></li>
                     <li><a href="#msme-niche">BTR Sub-Contracting Rules</a></li>
-                    <li><a href="#msme-niche">Cluster Pooling Desk</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>🛠️ Quick Navigation Links</h4>
-                <ul>
-                    <li><a href="#tenders">Live Sync Dashboard</a></li>
-                    <li><a href="#protocols">DSC Validation Tool</a></li>
-                    <li><a href="#protocols">Assam PWD Empanelment</a></li>
-                    <li><a href="#">Terms & System Conditions</a></li>
-                </ul>
-            </div>
-            <div class="footer-col" id="contact">
-                <h4>📞 Contact Intelligence Support</h4>
-                <ul style="font-size: 0.85rem;">
-                    <li><strong>Email:</strong> btr-intelligence@lmo-ai.internal</li>
-                    <li><strong>Node Helpline:</strong> Udalguri Central Desk Unit</li>
-                    <li><strong>Network Status:</strong> Live Feed Cryptographic Online</li>
-                </ul>
-            </div>
-        </div>
-        <div class="copyright">
-            <p>© 2026 MARKET SYSTEM AI (LMO-AI). All Rights Reserved to Family Nominee Asset Network.</p>
-        </div>
-    </footer>
-
-</body>
-</html>

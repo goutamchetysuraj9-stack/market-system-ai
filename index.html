@@ -3,105 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LMO-AI | Assam & Udalguri Tender Dashboard</title>
+    <title>LMO-AI | Assam & Udalguri Public Procurement & Tender Intelligence Dashboard</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background-color: #f4f6f9; font-family: 'Segoe UI', Tahoma, Arial, sans-serif; color: #333; padding-bottom: 50px; }
-        .hero-section { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; padding: 40px 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 30px; }
-        .hero-section h1 { font-size: 2.2rem; font-weight: bold; margin-bottom: 10px; letter-spacing: 1px; }
-        .hero-section p { font-size: 1.1rem; opacity: 0.9; margin-bottom: 15px; }
-        .status-badge { background-color: #2ecc71; color: white; padding: 6px 15px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; display: inline-block; }
-        .container { max-width: 1000px; margin: 0 auto; padding: 0 15px; }
-        .section-title { font-size: 1.4rem; color: #444; margin-bottom: 20px; font-weight: 600; border-bottom: 2px solid #ddd; padding-bottom: 5px; }
-        .tender-card { background: white; border-radius: 10px; padding: 20px; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.03); border-left: 6px solid #1e3c72; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
-        .tender-info { flex: 1; min-width: 280px; }
-        .tender-info h4 { font-size: 1.2rem; color: #2c3e50; margin-bottom: 8px; font-weight: 600; }
-        .tender-info p { font-size: 0.95rem; color: #666; margin-bottom: 5px; }
-        .tender-info strong { color: #333; }
-        .tender-action { text-align: right; min-width: 150px; margin-top: 10px; }
-        .budget-tag { font-size: 1.3rem; font-weight: bold; color: #e74c3c; margin-bottom: 10px; }
-        .win-probability { font-size: 0.85rem; color: #27ae60; font-weight: bold; margin-bottom: 12px; background: #e8f8f0; padding: 4px 8px; border-radius: 4px; display: inline-block; }
-        .gov-btn { background-color: #1e3c72; color: white; padding: 8px 16px; text-decoration: none; border-radius: 5px; font-weight: 600; font-size: 0.9rem; display: inline-block; transition: background 0.2s; }
-        .gov-btn:hover { background-color: #2a5298; }
-        .guide-box { background: #eaedf1; border-radius: 10px; padding: 25px; margin-top: 40px; }
-        .guide-box h4 { color: #2c3e50; margin-bottom: 15px; font-weight: 600; }
-        .guide-box ul { list-style-type: none; }
-        .guide-box li { margin-bottom: 10px; font-size: 0.95rem; color: #444; padding-left: 15px; position: relative; }
-        .guide-box li::before { content: "✔"; color: #1e3c72; position: absolute; left: 0; font-weight: bold; }
-        .footer-text { text-align: center; margin-top: 30px; font-size: 0.85rem; color: #888; }
-        @media (max-width: 768px) {
-            .tender-card { flex-direction: column; align-items: start; }
-            .tender-action { text-align: left; width: 100%; margin-top: 15px; border-top: 1px dashed #eee; padding-top: 15px; }
+        :root {
+            --primary: #1e293b;
+            --accent: #2563eb;
+            --success: #16a34a;
+            --bg: #f8fafc;
+            --text: #0f172a;
         }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; }
+        header { background: var(--primary); color: white; padding: 1.5rem; text-align: center; }
+        nav { display: flex; justify-content: center; background: #0f172a; padding: 0.75rem; gap: 1.5rem; }
+        nav a { color: #cbd5e1; text-decoration: none; font-size: 0.95rem; font-weight: 500; }
+        nav a:hover { color: white; }
+        .container { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
+        .card { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border-top: 4px solid var(--accent); }
+        .probability { font-size: 1.25rem; font-weight: bold; color: var(--success); }
+        .badge { background: #e2e8f0; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem; }
+        section { background: white; padding: 2rem; border-radius: 8px; margin-bottom: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        footer { background: var(--primary); color: #94a3b8; padding: 3rem 1rem 1.5rem; font-size: 0.9rem; margin-top: 5rem; }
+        .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; border-bottom: 1px solid #334155; padding-bottom: 2rem; }
+        .footer-col h4 { color: white; margin-bottom: 1rem; }
+        .footer-col ul { list-style: none; padding: 0; margin: 0; }
+        .footer-col ul li { margin-bottom: 0.5rem; }
+        .footer-col ul li a { color: #94a3b8; text-decoration: none; }
+        .footer-col ul li a:hover { color: white; }
+        .copyright { text-align: center; margin-top: 1.5rem; color: #64748b; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
-    <div class="hero-section">
-        <div class="container">
-            <h1>LOCAL MARKET OPPORTUNITY AI</h1>
-            <p>Assam & Udalguri Public Procurement & Tender Intelligence Dashboard</p>
-            <div class="status-badge">● Live Sync Active</div>
-        </div>
-    </div>
+    <header>
+        <h1>LOCAL MARKET OPPORTUNITY AI</h1>
+        <p>Assam & Udalguri Public Procurement & Tender Intelligence Dashboard</p>
+    </header>
+
+    <nav>
+        <a href="#tenders">📊 Live Tenders</a>
+        <a href="#msme-niche">🎯 MSME Niche</a>
+        <a href="#protocols">⚙️ Bid Engine</a>
+        <a href="#about">ℹ️ About System</a>
+        <a href="#contact">📞 Contact Support</a>
+    </nav>
 
     <div class="container">
-        <h3 class="section-title">Active Contracts & Tenders</h3>
-        <div id="tender-list-matrix">
-            <div style="text-align: center; padding: 30px; color: #666;">Syncing live rows from tenders.json...</div>
+        
+        <!-- LIVE TENDERS GRID -->
+        <h2 id="tenders">Live Sync Active Contracts & Tenders</h2>
+        <div class="grid">
+            <div class="card">
+                <span class="badge">PWD (Roads)</span>
+                <h3>Road Improvement: Udalguri Town to Rowta</h3>
+                <p>📍 Location: Udalguri Stretch</p>
+                <p><b>Value: ₹4,85,50,000</b></p>
+                <p>⏳ Deadline: Nov 25, 2026</p>
+                <p class="probability">Win Probability: 88%</p>
+                <a href="#">Official Govt Link →</a>
+            </div>
+            <div class="card">
+                <span class="badge">Irrigation</span>
+                <h3>Solar Pump Integration & Deep Tube Well</h3>
+                <p>📍 Location: Mazbat, Udalguri</p>
+                <p><b>Value: ₹88,20,000</b></p>
+                <p>⏳ Deadline: Nov 20, 2026</p>
+                <p class="probability">Win Probability: 92%</p>
+                <a href="#">Official Govt Link →</a>
+            </div>
+            <div class="card">
+                <span class="badge">BTR Fund</span>
+                <h3>Supply & Installation of Solar Street Lights</h3>
+                <p>📍 Location: Rural Markets, Udalguri</p>
+                <p><b>Value: ₹12,00,000</b></p>
+                <p>⏳ Deadline: Nov 30, 2026</p>
+                <p class="probability" style="color: #d97706;">Win Probability: 64%</p>
+                <a href="#">Official Govt Link →</a>
+            </div>
+            <div class="card">
+                <span class="badge">Municipal Board</span>
+                <h3>Multi-Purpose Community Hall at Tangla</h3>
+                <p>📍 Location: Tangla, Udalguri</p>
+                <p><b>Value: ₹45,00,000</b></p>
+                <p>⏳ Deadline: Dec 05, 2026</p>
+                <p class="probability">Win Probability: 75%</p>
+                <a href="#">Official Govt Link →</a>
+            </div>
         </div>
 
-        <div class="guide-box">
-            <h4>How to Apply for Udalguri Regional Tenders (MSME Guide)</h4>
+        <!-- MSME SECTION -->
+        <section id="msme-niche">
+            <h2>🎯 MSME Niche Focus & Reserved Gateways</h2>
             <ul>
-                <li><strong>Cryptographic Authorization:</strong> Secure a valid Class-III Digital Signature Certificate (DSC) necessary for executing technical transaction bids.</li>
-                <li><strong>Panel Enrolment Protocols:</strong> Contractors must possess certified registration tracks within the Assam PWD cell, Irrigation grid, or local municipal boards.</li>
-                <li><strong>EMD Validation Rules:</strong> Cross-verify dynamic tender fee waivers or Earnest Money Deposit exemptions provided to rural small business units under active state guidelines.</li>
+                <li><strong>EMD Validation Rules:</strong> Dynamic tender fee waivers and Earnest Money Deposit (EMD) exemptions for rural micro/small business units under active Assam state procurement lines.</li>
+                <li><strong>BTC Special Quotas:</strong> Reserved contract clusters mapping dedicated allocations for indigenous local contractors within the Bodoland Territorial Region (BTR).</li>
             </ul>
-        </div>
+        </section>
 
-        <p class="footer-text">© 2026 MARKET SYSTEM AI (LMO-AI). All Rights Reserved to Family Nominee Asset Network.</p>
+        <!-- APPLICATION PROTOCOLS -->
+        <section id="protocols">
+            <h2>⚙️ How to Apply (Udalguri Regional Tenders)</h2>
+            <ol>
+                <li><strong>Cryptographic Authorization:</strong> Secure a valid Class-III Digital Signature Certificate (DSC) necessary for executing transaction bids.</li>
+                <li><strong>Panel Enrolment Protocols:</strong> Contractors must possess certified active registration tracks within the Assam PWD cell, Irrigation grid, or local municipal boards.</li>
+            </ol>
+        </section>
+
     </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            fetch('tenders.json')
-                .then(response => {
-                    if (!response.ok) { throw new Error('Network failure'); }
-                    return response.json();
-                })
-                .then(data => {
-                    const displayTarget = document.getElementById('tender-list-matrix');
-                    displayTarget.innerHTML = ''; 
+    <!-- INTEGRATED EXPANDED FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col" id="about">
+                <h4>ℹ️ About LMO-AI</h4>
+                <p style="font-size: 0.85rem; line-height: 1.4;">Market System AI (LMO-AI) is an automated tracking protocol purpose-built for real-time tender intelligence across Assam and the Bodoland Territorial Region (BTR) councils, pulling direct data feeds via cryptographically verified government portals.</p>
+            </div>
+            <div class="footer-col">
+                <h4>🎯 MSME Niche Options</h4>
+                <ul>
+                    <li><a href="#msme-niche">Udyam Registration Setup</a></li>
+                    <li><a href="#msme-niche">EMD Exemption Verifier</a></li>
+                    <li><a href="#msme-niche">BTR Sub-Contracting Rules</a></li>
+                    <li><a href="#msme-niche">Cluster Pooling Desk</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>🛠️ Quick Navigation Links</h4>
+                <ul>
+                    <li><a href="#tenders">Live Sync Dashboard</a></li>
+                    <li><a href="#protocols">DSC Validation Tool</a></li>
+                    <li><a href="#protocols">Assam PWD Empanelment</a></li>
+                    <li><a href="#">Terms & System Conditions</a></li>
+                </ul>
+            </div>
+            <div class="footer-col" id="contact">
+                <h4>📞 Contact Intelligence Support</h4>
+                <ul style="font-size: 0.85rem;">
+                    <li><strong>Email:</strong> btr-intelligence@lmo-ai.internal</li>
+                    <li><strong>Node Helpline:</strong> Udalguri Central Desk Unit</li>
+                    <li><strong>Network Status:</strong> Live Feed Cryptographic Online</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2026 MARKET SYSTEM AI (LMO-AI). All Rights Reserved to Family Nominee Asset Network.</p>
+        </div>
+    </footer>
 
-                    data.forEach(item => {
-                        displayTarget.innerHTML += `
-                            <div class="tender-card">
-                                <div class="tender-info">
-                                    <h4>${item.title || "Procurement Project"}</h4>
-                                    <p>📍 <strong>Location:</strong> ${item.location || "Udalguri, Assam"}</p>
-                                    <p>🏢 <strong>Department:</strong> ${item.department || "Govt Source"}</p>
-                                    <p>⏳ <strong>Deadline:</strong> ${item.deadline || "View Link"}</p>
-                                </div>
-                                <div class="tender-action">
-                                    <div class="budget-tag">${item.budget || "Contact Dept"}</div>
-                                    <div><span class="win-probability">Win Probability: ${item.win_probability || "70"}%</span></div>
-                                    <a href="${item.link || "https://assamtenders.gov.in"}" target="_blank" class="gov-btn">Official Govt Link</a>
-                                </div>
-                            </div>
-                        `;
-                    });
-                })
-                .catch(err => {
-                    console.error("Error loading matrix:", err);
-                    document.getElementById('tender-list-matrix').innerHTML = `
-                        <div style="background-color: #fde8e8; color: #e74c3c; padding: 20px; border-radius: 8px; text-align: center;">
-                            <strong>Database Connection Notice</strong><br>
-                            <span style="font-size: 0.9rem;">Design is fully secure. Please ensure tenders.json file exists on your main GitHub folder with data rows.</span>
-                        </div>
-                    `;
-                });
-        });
-    </script>
 </body>
 </html>

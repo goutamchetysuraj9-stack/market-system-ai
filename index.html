@@ -4,59 +4,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LMO-AI | Assam & Udalguri Tender Dashboard</title>
-    <!-- Internal CSS styled for LMO-AI Assam & Udalguri Tender Dashboard -->
+    <link href="https://jsdelivr.net" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background-color: #f4f7fc; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; line-height: 1.6; }
-        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
-        .hero-section { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; padding: 40px 20px; border-radius: 16px; text-align: center; box-shadow: 0 10px 20px rgba(30,60,114,0.15); margin-bottom: 30px; }
-        .tender-card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border-left: 6px solid #0d6efd; display: flex; justify-content: space-between; align-items: center; }
-        .budget-tag { font-size: 1.4rem; font-weight: 700; color: #e74c3c; }
-        .gov-btn { background-color: #0d6efd; color: white; padding: 8px 16px; text-decoration: none; border-radius: 6px; font-weight: 600; }
-        .guide-box { background: #eef2f7; border-radius: 12px; padding: 25px; margin-top: 40px; border: 1px solid #dbe2ef; }
+        body { background-color: #f4f6f9; font-family: 'Segoe UI', Arial, sans-serif; }
+        .hero-section { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; padding: 40px 20px; border-radius: 0 0 20px 20px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .tender-card { background: white; border: none; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 20px; border-left: 5px solid #0d6efd; padding: 20px; }
+        .budget-tag { font-size: 1.3rem; font-weight: 700; color: #dc3545; }
+        .win-badge { background-color: #e8f5e9; color: #2e7d32; font-weight: 600; padding: 5px 10px; border-radius: 6px; font-size: 0.85rem; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="hero-section">
-            <h1>LOCAL MARKET OPPORTUNITY AI</h1>
-            <p>Assam & Udalguri Public Procurement & Tender Intelligence Dashboard</p>
-        </div>
-        <div id="tender-matrix-display"></div>
-        <div class="guide-box">
-            <h4>How to Apply for Udalguri Regional Tenders (MSME Guide)</h4>
-            <ul>
-                <li>Cryptographic Authorization & Class-III DSC</li>
-                <li>Panel Enrolment Protocols with Assam PWD/Municipal boards</li>
-                <li>EMD Validation Rules & rural small business exemptions</li>
-            </ul>
+
+    <div class="hero-section text-center">
+        <div class="container">
+            <h1 class="fw-bold">LOCAL MARKET OPPORTUNITY AI</h1>
+            <p class="lead">Assam & Udalguri Public Procurement & Tender Intelligence Dashboard</p>
+            <span class="badge bg-success">● Live Sync Active</span>
         </div>
     </div>
+
+    <div class="container">
+        <h3 class="mb-4 text-secondary">Active Contracts & Tenders</h3>
+        <div id="tender-list">
+            <!-- Tenders ka data yahan automatic load hoga -->
+            <div class="text-center py-5">
+                <div class="spinner-border text-primary" role="status"></div>
+                <p class="mt-2 text-muted">Fetching and syncing live database rows...</p>
+            </div>
+        </div>
+
+        <div class="card p-4 my-5 bg-light border-0">
+            <h4 class="fw-bold mb-3">How to Apply for Udalguri Regional Tenders (MSME Guide)</h4>
+            <ul>
+                <li class="mb-2"><strong>Cryptographic Authorization:</strong> Secure a valid Class-III Digital Signature Certificate (DSC) necessary for executing technical transaction bids.</li>
+                <li class="mb-2"><strong>Panel Enrolment Protocols:</strong> Contractors must possess certified registration tracks within the Assam PWD cell, Irrigation grid, or local municipal boards.</li>
+                <li class="mb-2"><strong>EMD Validation Rules:</strong> Cross-verify dynamic tender fee waivers or Earnest Money Deposit exemptions provided to rural small business units under active state guidelines.</li>
+            </ul>
+            <p class="text-muted mt-3 small">© 2026 MARKET SYSTEM AI (LMO-AI). All Rights Reserved to Family Nominee Asset Network.</p>
+        </div>
+    </div>
+
     <script>
-        // Full dashboard HTML, CSS structure, and fallback tender data script available in source code.
         document.addEventListener("DOMContentLoaded", function() {
-            const backupData = [
-                { title: "Solar Street Lighting Systems", location: "Udalguri", deadline: "Nov 30, 2026", budget: "₹12,00,000", dept: "BTR Fund", link: "#" },
-                { title: "Community Hall at Tangla", location: "Tangla", deadline: "Dec 05, 2026", budget: "₹4,500,000", dept: "Udalguri Municipal Board", link: "#" },
-                { title: "Solar Pump Scheme", location: "Mazbat", deadline: "Nov 20, 2026", budget: "₹8,820,000", dept: "Assam Irrigation", link: "#" },
-                { title: "Road Improvement - Rowta", location: "Udalguri", deadline: "Nov 25, 2026", budget: "₹4,85,50,000", dept: "Assam PWD", link: "#" }
-            ];
-            const displayTarget = document.getElementById('tender-matrix-display');
-            function renderMatrix(items) {
-                displayTarget.innerHTML = items.map(item => `
-                    <div class="tender-card">
-                        <div>
-                            <h4>${item.title}</h4>
-                            <p>📍 <strong>Location:</strong> ${item.location} | 🏢 <strong>Dept:</strong> ${item.dept} | ⏳ <strong>Deadline:</strong> ${item.deadline}</p>
+            // Yeh seedhe bahar rakhi tenders.json file se data uthayega, bina kisi public folder ke
+            fetch('tenders.json')
+                .then(response => {
+                    if (!response.ok) { throw new Error('File not found'); }
+                    return response.json();
+                })
+                .then(data => {
+                    const container = document.getElementById('tender-list');
+                    container.innerHTML = ''; // Loading spinner ko hatane ke liye
+
+                    data.forEach(item => {
+                        container.innerHTML += `
+                            <div class="tender-card">
+                                <div class="row align-items-center">
+                                    <div class="col-md-8">
+                                        <h5 class="fw-bold text-dark mb-2">${item.title}</h5>
+                                        <p class="mb-1 text-muted">📍 <strong>Location:</strong> ${item.location}</p>
+                                        <p class="mb-1 text-muted">🏢 <strong>Department:</strong> ${item.department}</p>
+                                        <p class="mb-0 text-muted">⏳ <strong>Deadline:</strong> ${item.deadline}</p>
+                                    </div>
+                                    <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                                        <div class="budget-tag mb-2">${item.budget}</div>
+                                        <div class="mb-3"><span class="win-badge">Win Probability: ${item.win_probability}%</span></div>
+                                        <a href="${item.link}" target="_blank" class="btn btn-primary btn-sm px-3 rounded-pill">Official Govt Link</a>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                })
+                .catch(err => {
+                    console.error("Error:", err);
+                    document.getElementById('tender-list').innerHTML = `
+                        <div class="alert alert-danger text-center">
+                            <h5>Data Load Nahi Ho Paya</h5>
+                            <p class="small mb-0">Website chal rahi hai par tenders.json file open nahi ho rahi. Kripya dhyan dein ki tenders.json file main page par maujood ho.</p>
                         </div>
-                        <div style="text-align: right;">
-                            <div class="budget-tag">${item.budget}</div>
-                            <a href="${item.link}" class="gov-btn">Official Govt Link</a>
-                        </div>
-                    </div>
-                `).join('');
-            }
-            renderMatrix(backupData);
+                    `;
+                });
         });
     </script>
 </body>

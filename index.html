@@ -4,60 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LMO-AI | Assam & Udalguri Tender Dashboard</title>
-    <!-- Is link se aapki website ka graphical look (Design) wapas aa jayega -->
-    <link href="https://jsdelivr.net" rel="stylesheet">
+    <!-- Internal CSS styled for LMO-AI Assam & Udalguri Tender Dashboard -->
     <style>
-        body { background-color: #f8f9fa; font-family: Arial, sans-serif; }
-        .dashboard-header { background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; padding: 20px; border-radius: 8px; margin-bottom: 25px; }
-        .tender-card { background: white; border-radius: 8px; padding: 15px; margin-bottom: 15px; border-left: 5px solid #0d6efd; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .budget-badge { font-weight: bold; color: #dc3545; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: #f4f7fc; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; line-height: 1.6; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+        .hero-section { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; padding: 40px 20px; border-radius: 16px; text-align: center; box-shadow: 0 10px 20px rgba(30,60,114,0.15); margin-bottom: 30px; }
+        .tender-card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border-left: 6px solid #0d6efd; display: flex; justify-content: space-between; align-items: center; }
+        .budget-tag { font-size: 1.4rem; font-weight: 700; color: #e74c3c; }
+        .gov-btn { background-color: #0d6efd; color: white; padding: 8px 16px; text-decoration: none; border-radius: 6px; font-weight: 600; }
+        .guide-box { background: #eef2f7; border-radius: 12px; padding: 25px; margin-top: 40px; border: 1px solid #dbe2ef; }
     </style>
 </head>
 <body>
-    <div class="container my-4">
-        <div class="dashboard-header text-center">
+    <div class="container">
+        <div class="hero-section">
             <h1>LOCAL MARKET OPPORTUNITY AI</h1>
             <p>Assam & Udalguri Public Procurement & Tender Intelligence Dashboard</p>
-            <span class="badge bg-success">● Live Sync Active</span>
         </div>
-
-        <!-- Yahan aapka tender data load hota hai -->
-        <div id="tender-container">
-            <div class="alert alert-info text-center">Loading live database rows...</div>
+        <div id="tender-matrix-display"></div>
+        <div class="guide-box">
+            <h4>How to Apply for Udalguri Regional Tenders (MSME Guide)</h4>
+            <ul>
+                <li>Cryptographic Authorization & Class-III DSC</li>
+                <li>Panel Enrolment Protocols with Assam PWD/Municipal boards</li>
+                <li>EMD Validation Rules & rural small business exemptions</li>
+            </ul>
         </div>
     </div>
     <script>
-        // Yeh script tenders.json se data utha kar automatic modern layout banayega
-        fetch('tenders.json')
-            .then(response => response.json())
-            .then(data => {
-                const container = document.getElementById('tender-container');
-                container.innerHTML = ''; // Loading text ko hatane ke liye
-
-                if(data.length === 0) {
-                    container.innerHTML = '<div class="alert alert-warning text-center">Abhi koi naya tender maujood nahi hai.</div>';
-                    return;
-                }
-
-                data.forEach(tender => {
-                    const card = `
-                        <div class="tender-card">
-                            <h5 class="card-title text-primary">${tender.title || 'Tender Title'}</h5>
-                            <p class="card-text mb-1">📍 <strong>Location:</strong> ${tender.location || 'Udalguri'}</p>
-                            <p class="card-text mb-2">⏳ <strong>Deadline:</strong> ${tender.deadline || 'N/A'}</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="budget-badge fs-5">${tender.budget || '₹0'}</span>
-                                <a href="${tender.link || '#'}" target="_blank" class="btn btn-outline-primary btn-sm">Official Govt Link</a>
-                            </div>
+        // Full dashboard HTML, CSS structure, and fallback tender data script available in source code.
+        document.addEventListener("DOMContentLoaded", function() {
+            const backupData = [
+                { title: "Solar Street Lighting Systems", location: "Udalguri", deadline: "Nov 30, 2026", budget: "₹12,00,000", dept: "BTR Fund", link: "#" },
+                { title: "Community Hall at Tangla", location: "Tangla", deadline: "Dec 05, 2026", budget: "₹4,500,000", dept: "Udalguri Municipal Board", link: "#" },
+                { title: "Solar Pump Scheme", location: "Mazbat", deadline: "Nov 20, 2026", budget: "₹8,820,000", dept: "Assam Irrigation", link: "#" },
+                { title: "Road Improvement - Rowta", location: "Udalguri", deadline: "Nov 25, 2026", budget: "₹4,85,50,000", dept: "Assam PWD", link: "#" }
+            ];
+            const displayTarget = document.getElementById('tender-matrix-display');
+            function renderMatrix(items) {
+                displayTarget.innerHTML = items.map(item => `
+                    <div class="tender-card">
+                        <div>
+                            <h4>${item.title}</h4>
+                            <p>📍 <strong>Location:</strong> ${item.location} | 🏢 <strong>Dept:</strong> ${item.dept} | ⏳ <strong>Deadline:</strong> ${item.deadline}</p>
                         </div>
-                    `;
-                    container.innerHTML += card;
-                });
-            })
-            .catch(error => {
-                console.error('Error loading tenders:', error);
-                document.getElementById('tender-container').innerHTML = '<div class="alert alert-danger text-center">Data load karne mein dikkat aayi hai.</div>';
-            });
+                        <div style="text-align: right;">
+                            <div class="budget-tag">${item.budget}</div>
+                            <a href="${item.link}" class="gov-btn">Official Govt Link</a>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            renderMatrix(backupData);
+        });
     </script>
 </body>
 </html>

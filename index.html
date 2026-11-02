@@ -26,5 +26,38 @@
             <div class="alert alert-info text-center">Loading live database rows...</div>
         </div>
     </div>
+    <script>
+        // Yeh script tenders.json se data utha kar automatic modern layout banayega
+        fetch('tenders.json')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('tender-container');
+                container.innerHTML = ''; // Loading text ko hatane ke liye
+
+                if(data.length === 0) {
+                    container.innerHTML = '<div class="alert alert-warning text-center">Abhi koi naya tender maujood nahi hai.</div>';
+                    return;
+                }
+
+                data.forEach(tender => {
+                    const card = `
+                        <div class="tender-card">
+                            <h5 class="card-title text-primary">${tender.title || 'Tender Title'}</h5>
+                            <p class="card-text mb-1">📍 <strong>Location:</strong> ${tender.location || 'Udalguri'}</p>
+                            <p class="card-text mb-2">⏳ <strong>Deadline:</strong> ${tender.deadline || 'N/A'}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="budget-badge fs-5">${tender.budget || '₹0'}</span>
+                                <a href="${tender.link || '#'}" target="_blank" class="btn btn-outline-primary btn-sm">Official Govt Link</a>
+                            </div>
+                        </div>
+                    `;
+                    container.innerHTML += card;
+                });
+            })
+            .catch(error => {
+                console.error('Error loading tenders:', error);
+                document.getElementById('tender-container').innerHTML = '<div class="alert alert-danger text-center">Data load karne mein dikkat aayi hai.</div>';
+            });
+    </script>
 </body>
 </html>

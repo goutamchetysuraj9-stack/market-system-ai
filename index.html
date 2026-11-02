@@ -2,131 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="google-site-verification" content="JZCN0SGRFxZc8G-4cgLdV67FvAKAsA2f_izF0DLh3eY" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assam & Udalguri Public Procurement & Tender Intelligence Dashboard | LMO-AI</title>
-    <script src="https://jsdelivr.net"></script>
-    <link rel="stylesheet" href="https://cloudflare.com">
-    <script async src="https://googlesyndication.com" crossorigin="anonymous"></script>
+    <title>LMO-AI | Assam & Udalguri Tender Dashboard</title>
+    <!-- Is link se aapki website ka graphical look (Design) wapas aa jayega -->
+    <link href="https://jsdelivr.net" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; font-family: Arial, sans-serif; }
+        .dashboard-header { background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; padding: 20px; border-radius: 8px; margin-bottom: 25px; }
+        .tender-card { background: white; border-radius: 8px; padding: 15px; margin-bottom: 15px; border-left: 5px solid #0d6efd; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .budget-badge { font-weight: bold; color: #dc3545; }
+    </style>
 </head>
-<body class="bg-gray-900 text-gray-100 font-sans antialiased">
-    <nav class="bg-gray-800 border-b border-gray-700 px-6 py-4 flex justify-between items-center shadow-lg">
-        <div class="flex items-center space-x-3">
-            <div class="bg-blue-600 p-2 rounded-lg text-white"><i class="fa-solid fa-chart-line text-xl"></i></div>
-            <div>
-                <span class="text-xl font-bold tracking-wide text-white block">LOCAL MARKET OPPORTUNITY <span class="text-blue-500">AI</span></span>
-                <span class="text-xs text-gray-400">Assam & Udalguri Public Procurement & Tender Intelligence Dashboard</span>
-            </div>
-        </div>
-        <div class="flex items-center space-x-4">
-            <span class="text-sm bg-green-900 text-green-300 px-3 py-1 rounded-full font-medium border border-green-700">
-                <i class="fa-solid fa-circle text-[8px] mr-1.5 align-middle animate-pulse"></i> Live Sync Active
-            </span>
-        </div>
-    </nav>
-
-    <div class="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
-        <div id="ads-node-top" class="w-full min-h-[90px] mb-8 transparent flex justify-center items-center"></div>
-
-        <div class="mb-10">
-            <h2 class="text-xl font-bold mb-4 text-blue-400 flex items-center"><i class="fa-solid fa-folder-open mr-2 text-blue-500"></i> Small Budget Contracts (Up to ₹50 Lakh)</h2>
-            <div class="bg-gray-800 rounded-lg overflow-hidden border border-gray-700 shadow-xl p-6">
-                <div class="grid grid-cols-3 border-b border-gray-700 pb-3 font-semibold text-gray-400 text-sm tracking-wider">
-                    <div>Tender Title & Location</div><div class="text-center">Estimated Budget</div><div class="text-right">Department Source / Action</div>
-                </div>
-                <div id="small-tenders-body" class="divide-y divide-gray-700"></div>
-            </div>
+<body>
+    <div class="container my-4">
+        <div class="dashboard-header text-center">
+            <h1>LOCAL MARKET OPPORTUNITY AI</h1>
+            <p>Assam & Udalguri Public Procurement & Tender Intelligence Dashboard</p>
+            <span class="badge bg-success">● Live Sync Active</span>
         </div>
 
-        <div class="mb-10">
-            <h2 class="text-xl font-bold mb-4 text-blue-400 flex items-center"><i class="fa-solid fa-folder-open mr-2 text-blue-500"></i> Medium Budget Contracts (₹50 Lakh to ₹2 Crore)</h2>
-            <div class="bg-gray-800 rounded-lg overflow-hidden border border-gray-700 shadow-xl p-6">
-                <div class="grid grid-cols-3 border-b border-gray-700 pb-3 font-semibold text-gray-400 text-sm tracking-wider">
-                    <div>Tender Title & Location</div><div class="text-center">Estimated Budget</div><div class="text-right">Department Source / Action</div>
-                </div>
-                <div id="medium-tenders-body" class="divide-y divide-gray-700"></div>
-            </div>
+        <!-- Yahan aapka tender data load hota hai -->
+        <div id="tender-container">
+            <div class="alert alert-info text-center">Loading live database rows...</div>
         </div>
-
-        <div id="ads-node-middle" class="w-full min-h-[90px] mb-8 transparent flex justify-center items-center"></div>
-
-        <div class="mb-10">
-            <h2 class="text-xl font-bold mb-4 text-red-400 flex items-center"><i class="fa-solid fa-layer-group mr-2 text-red-500"></i> Large / Mega Project Contracts (Above ₹2 Crore)</h2>
-            <div class="bg-gray-800 rounded-lg overflow-hidden border border-gray-700 shadow-xl p-6">
-                <div class="grid grid-cols-3 border-b border-gray-700 pb-3 font-semibold text-gray-400 text-sm tracking-wider">
-                    <div>Tender Title & Location</div><div class="text-center">Estimated Budget</div><div class="text-right">Department Source / Action</div>
-                </div>
-                <div id="mega-tenders-body" class="divide-y divide-gray-700"></div>
-            </div>
-        </div>
-
-        <div class="mb-10">
-            <h2 class="text-xl font-bold mb-4 text-gray-400 flex items-center"><i class="fa-solid fa-list-check mr-2 text-gray-500"></i> Other Live Tenders (Verify & Bid)</h2>
-            <div class="bg-gray-800 rounded-lg overflow-hidden border border-gray-700 shadow-xl p-6">
-                <div id="others-tenders-body" class="text-center py-2 text-gray-400 text-sm"></div>
-            </div>
-        </div>
-
-        <div class="bg-gray-800 border border-gray-700 rounded-lg p-6 mb-10 shadow-xl">
-            <h3 class="text-lg font-bold text-blue-400 mb-3 border-b border-gray-700 pb-2"><i class="fa-solid fa-book-open mr-2"></i>How to Apply for Udalguri Regional Tenders (MSME Guide)</h3>
-            <p class="text-gray-300 text-sm leading-relaxed mb-4">If you are a registered infrastructure builder looking to execute public procurement projects across the Bodoland Territorial Region (BTR) or Udalguri district, utilize these structured coordination milestones:</p>
-            <ul class="list-disc list-inside text-gray-400 text-xs space-y-2 pl-2">
-                <li><strong>Cryptographic Authorization:</strong> Secure a valid Class-III Digital Signature Certificate (DSC) necessary for executing technical transaction bids.</li>
-                <li><strong>Panel Enrolment Protocols:</strong> Contractors must possess certified registration tracks within the Assam PWD cell, Irrigation grid, or local municipal boards.</li>
-                <li><strong>EMD Validation Rules:</strong> Cross-verify dynamic tender fee waivers or Earnest Money Deposit exemptions provided to rural small business units under active state guidelines.</li>
-            </ul>
-        </div>
-
-        <footer class="mt-16 text-center pt-8 pb-4 text-xs text-gray-500 border-t border-gray-800">
-            <p class="mb-4">© 2026 MARKET SYSTEM AI (LMO-AI). All Rights Reserved to Family Nominee Asset Network.</p>
-            <p class="space-x-4">
-                <a href="legal.html" class="text-blue-500 hover:text-blue-400 transition">Privacy Policy & Disclaimer</a>
-                <span class="text-gray-700">|</span>
-                <a href="about.html" class="text-blue-500 hover:text-blue-400 transition">About LMO-AI</a>
-                <span class="text-gray-700">|</span>
-                <a href="contact.html" class="text-blue-500 hover:text-blue-400 transition">Contact Us</a>
-            </p>
-        </footer>
     </div>
-
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        fetch('/tenders.json')
-          .then(res => { if (!res.ok) throw new Error("Sync Pending"); return res.json(); })
-          .then(matrix => {
-              const sBody = document.getElementById("small-tenders-body");
-              const mBody = document.getElementById("medium-tenders-body");
-              const gBody = document.getElementById("mega-tenders-body");
-              const oBody = document.getElementById("others-tenders-body");
-              sBody.innerHTML = ""; mBody.innerHTML = ""; gBody.innerHTML = "";
-              let sC = 0, mC = 0, gC = 0;
-              matrix.forEach(record => {
-                  const numVal = parseInt(record.budget.replace(/[^0-9]/g, ''), 10) || 0;
-                  const rowStr = `<div class="grid grid-cols-3 py-5 items-center hover:bg-gray-750 transition duration-150 border-b border-gray-700 last:border-0">
-                      <div>
-                          <div class="font-bold text-white text-base">${record.title}</div>
-                          <div class="text-sm text-gray-400 mt-1"><i class="fa-solid fa-location-dot text-blue-500 mr-2 text-xs"></i>📍 Location: ${record.location}</div>
-                          <div class="text-xs text-red-400 font-medium mt-1.5"><i class="fa-regular fa-clock mr-1.5"></i>⏳ Deadline: ${record.deadline}</div>
-                      </div>
-                      <div class="text-center text-green-400 font-bold text-lg">${record.budget}</div>
-                      <div class="text-right">
-                          <span class="text-sm text-gray-300 block mb-2">${record.department}</span>
-                          <a href="${record.link}" target="_blank" class="text-xs bg-blue-600 hover:bg-blue-700 text-white font-medium px-3 py-2 rounded inline-block transition shadow-md"><i class="fa-solid fa-arrow-up-right-from-square mr-1.5"></i>Official Govt Link</a>
-                      </div>
-                  </div>`;
-                  if (numVal <= 5000000) { sBody.innerHTML += rowStr; sC++; }
-                  else if (numVal > 5000000 && numVal <= 20000000) { mBody.innerHTML += rowStr; mC++; }
-                  else { gBody.innerHTML += rowStr; gC++; }
-              });
-              if(sC === 0) sBody.innerHTML = `<div class="text-center py-6 text-gray-500 text-sm">No active small budget procurement matching filters found today.</div>`;
-              if(mC === 0) mBody.innerHTML = `<div class="text-center py-6 text-gray-500 text-sm">No active regional infrastructure schemes listed inside this category.</div>`;
-              if(gC === 0) gBody.innerHTML = `<div class="text-center py-6 text-gray-500 text-sm">No active state highway or multi-crore public sector tenders open.</div>`;
-              oBody.innerHTML = `<i class="fa-solid fa-shield-halved mr-1.5 text-green-500"></i> All current database rows successfully synced.`;
-          })
-          .catch(err => {
-              document.getElementById("small-tenders-body").innerHTML = `<div class="text-center py-4 text-gray-500 text-sm">Syncing system database parameters...</div>`;
-          });
-      });
-    </script>
 </body>
 </html>

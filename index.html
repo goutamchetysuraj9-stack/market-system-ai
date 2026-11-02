@@ -31,45 +31,41 @@
         
         .container { max-width: 1200px; margin: 2.5rem auto; padding: 0 1.5rem; }
         
-        /* Filter Control Panel Styling */
         .filter-panel { background: white; padding: 1.25rem; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 2rem; display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
         .filter-panel label { font-weight: 600; color: var(--text-dark); font-size: 0.95rem; }
         .filter-panel select { padding: 0.5rem 1rem; border-radius: 4px; border: 1px solid var(--border); font-size: 0.9rem; background: var(--bg); font-weight: 600; color: var(--text-dark); cursor: pointer; outline: none; }
-        .filter-panel select:focus { border-color: var(--accent); }
 
         h2 { font-size: 1.5rem; color: var(--text-dark); margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border); display: flex; align-items: center; gap: 0.5rem; }
         
-        .adsense-horizontal { background: #ffffff; border: 1px dashed #cbd5e1; border-radius: 6px; padding: 1rem; text-align: center; margin-bottom: 2.5rem; min-height: 90px; color: #94a3b8; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; }
+        .adsense-placeholder { background: #ffffff; border: 1px dashed #cbd5e1; border-radius: 6px; padding: 1rem; text-align: center; margin-bottom: 2.5rem; min-height: 90px; color: #94a3b8; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 3.5rem; }
-        .card { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03); border: 1px solid var(--border); border-top: 4px solid var(--accent); transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; justify-content: space-between; }
-        .card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); }
-        .badge { background: #eff6ff; color: var(--accent); font-weight: 700; padding: 0.25rem 0.6rem; border-radius: 4px; font-size: 0.75rem; text-transform: uppercase; display: inline-block; margin-bottom: 0.75rem; align-self: flex-start; }
-        .card h3 { font-size: 1.1rem; color: var(--text-dark); margin-bottom: 0.75rem; line-height: 1.4; }
-        .card-details { margin-bottom: 1rem; }
-        .card p { font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--text); }
-        .card p strong { color: var(--text-dark); }
-        .probability { font-weight: 700; color: var(--success); display: inline-flex; align-items: center; margin: 0.5rem 0; padding: 0.25rem 0.5rem; background: #f0fdf4; border-radius: 4px; font-size: 0.9rem; width: fit-content; }
+        .budget-section { margin-bottom: 3.5rem; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1rem; }
+        .card { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid var(--border); border-top: 4px solid var(--accent); transition: transform 0.2s; display: flex; flex-direction: column; justify-content: space-between; }
+        .card:hover { transform: translateY(-2px); }
+        .badge { background: #eff6ff; color: var(--accent); font-weight: 700; padding: 0.25rem 0.6rem; border-radius: 4px; font-size: 0.75rem; text-transform: uppercase; display: inline-block; margin-bottom: 0.75rem; }
+        
+        .probability { font-weight: 700; color: var(--success); display: inline-flex; align-items: center; margin: 0.5rem 0; padding: 0.25rem 0.5rem; background: #f0fdf4; border-radius: 4px; font-size: 0.9rem; }
         .probability.warning { color: var(--warning); background: #fffbeb; }
         .gov-link { display: inline-block; margin-top: 0.5rem; color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
-        .gov-link:hover { text-decoration: underline; }
         
-        .no-data { text-align: center; color: #64748b; font-style: italic; padding: 2rem; grid-column: 1 / -1; }
+        .no-data { color: #64748b; font-style: italic; padding: 1.5rem 0; }
 
-        section { background: white; padding: 2rem; border-radius: 8px; margin-bottom: 2.5rem; border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
-        section ul, section ol { padding-left: 1.25rem; }
-        section li { margin-bottom: 1rem; font-size: 0.95rem; line-height: 1.6; }
-        section li strong { color: var(--text-dark); }
+        section { background: white; padding: 2rem; border-radius: 8px; margin-bottom: 2.5rem; border: 1px solid var(--border); }
         
+        /* Privacy Policy Modal Window CSS */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); overflow-y: auto; }
+        .modal-content { background-color: white; margin: 5% auto; padding: 2.5rem; border-radius: 8px; max-width: 800px; border: 1px solid var(--border); }
+        .close-btn { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .close-btn:hover { color: black; }
+
         footer { background: var(--primary); color: #94a3b8; padding: 3.5rem 1.5rem 2rem; font-size: 0.85rem; border-top: 4px solid var(--accent); }
         .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2.5rem; border-bottom: 1px solid #1e293b; padding-bottom: 2.5rem; }
-        .footer-col h4 { color: #f1f5f9; margin-bottom: 1.25rem; font-size: 0.95rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
-        .footer-col p { line-height: 1.6; }
+        .footer-col h4 { color: #f1f5f9; margin-bottom: 1.25rem; font-size: 0.95rem; font-weight: 700; text-transform: uppercase; }
         .footer-col ul { list-style: none; padding: 0; }
         .footer-col ul li { margin-bottom: 0.75rem; }
-        .footer-col ul li a { color: #94a3b8; text-decoration: none; transition: color 0.2s; }
+        .footer-col ul li a { color: #94a3b8; text-decoration: none; cursor: pointer; }
         .footer-col ul li a:hover { color: white; }
-        .footer-col ul strong { color: #cbd5e1; }
         
         .copyright { text-align: center; margin-top: 2rem; color: #64748b; font-size: 0.8rem; }
     </style>
@@ -78,11 +74,11 @@
 
     <header>
         <h1>LOCAL MARKET OPPORTUNITY AI</h1>
-        <p>Assam & Udalguri Public Procurement & Tender Intelligence Dashboard</p>
+        <p>System Status: Auto-Pilot Active | Free Public Access Dashboard</p>
     </header>
 
     <nav>
-        <a href="#tenders">📊 Live Tenders</a>
+        <a href="#tenders-section">📊 Live Tenders</a>
         <a href="#msme-niche">🎯 MSME Niche</a>
         <a href="#protocols">⚙️ Bid Engine</a>
         <a href="#about">ℹ️ About System</a>
@@ -91,37 +87,41 @@
 
     <div class="container">
         
-        <!-- Top AdSense Banner Placeholder -->
-        <div class="adsense-horizontal">
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-                 data-ad-slot="XXXXXXXXXX"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>
-                 (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
+        <!-- Google AdSense Header Banner -->
+        <div class="adsense-placeholder">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
 
-        <!-- LIVE CONFIGURATION FILTERS -->
         <div class="filter-panel">
-            <label for="districtFilter">📍 Select Region / District Filter:</label>
+            <label for="districtFilter">📍 Region Filter:</label>
             <select id="districtFilter" onchange="filterTenders()">
                 <option value="ALL">✨ Show All Districts (Pure Assam Grid)</option>
                 <option value="Udalguri">Udalguri (Local Core)</option>
                 <option value="Kokrajhar">Kokrajhar</option>
                 <option value="Baksa">Baksa</option>
                 <option value="Chirang">Chirang</option>
-                <option value="Kamrup Metro">Kamrup Metro (Guwahati Area)</option>
+                <option value="Kamrup Metro">Kamrup Metro (Guwahati)</option>
                 <option value="Nalbari">Nalbari</option>
             </select>
         </div>
 
-        <!-- LIVE TENDERS GRID CONTAINER -->
-        <h2 id="tenders">Live Sync Active Contracts & Tenders</h2>
-        <div class="grid" id="tendersGrid">
-            <!-- JavaScript will dynamically populate raw cards here -->
+        <!-- LIVE SEPARATED BUDGET GRID LAYER -->
+        <div id="tenders-section">
+            <div class="budget-section">
+                <h2>⚙️ Small Budget Contracts (Up to ₹50 Lakh)</h2>
+                <div class="grid" id="smallGrid"></div>
+            </div>
+
+            <div class="budget-section">
+                <h2>⚙️ Medium Budget Contracts (₹50 Lakh to ₹2 Crore)</h2>
+                <div class="grid" id="mediumGrid"></div>
+            </div>
+
+            <div class="budget-section">
+                <h2>⚙️ Large / Mega Project Contracts (Above ₹2 Crore)</h2>
+                <div class="grid" id="megaGrid"></div>
+            </div>
         </div>
 
         <!-- MSME SECTION -->
@@ -142,16 +142,13 @@
         </section>
     </div>
 
-    <footer>
-        <div class="footer-grid">
-            <div class="footer-col" id="about">
-                <h4>ℹ️ About LMO-AI</h4>
-                <p>Market System AI (LMO-AI) is an automated tracking protocol purpose-built for real-time tender intelligence across Assam and the Bodoland Territorial Region (BTR) councils, pulling direct data feeds via cryptographically verified government portals.</p>
-            </div>
-            
-            <div class="footer-col">
-                <h4>🎯 MSME Niche Options</h4>
-                <ul>
-                    <li><a href="#msme-niche">Udyam Registration Setup</a></li>
-                    <li><a href="#msme-niche">EMD Exemption Verifier</a></li>
-                    <li><a href="#msme-niche">BTR Sub-Contracting Rules</a></li>
+    <!-- DYNAMIC LEGAL PRIVACY DIALOG MODAL -->
+    <div id="legalModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="toggleModal(false)">&times;</span>
+            <h2 style="border:none;">Legal Data Accuracy & Compliance Disclaimer</h2>
+            <p>Welcome to MARKET SYSTEM AI (LMO-AI). The information displayed on this dashboard is automatically collected, processed, and compiled from publicly available government procurement portals.</p>
+            <br>
+            <p><strong>Official Association Status Notice:</strong> This platform is strictly an independent informational utility dashboard designed for small businesses and local contractors. We are NOT affiliated, associated, authorized, endorsed by, or in any way officially connected with any government organization, ministry, state department, or central authority of India.</p>
+            <br>
+            <h3>Privacy Policy & Cookie Configuration</h3>

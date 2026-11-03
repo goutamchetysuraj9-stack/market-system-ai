@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LMO-AI | Assam & Udalguri Public Procurement & Tender Intelligence Dashboard</title>
+    <title>LMO-AI | Assam Public Procurement & Tender Intelligence Dashboard</title>
     <!-- AdSense Verification Auto-Ads Script Configuration -->
     <script async src="https://googlesyndication.com" crossorigin="anonymous"></script>
     <style>
@@ -22,165 +22,137 @@
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
         
         header { background: var(--primary); color: white; padding: 2.5rem 1rem; text-align: center; border-bottom: 1px solid #1e293b; }
-        header h1 { font-size: 2rem; font-weight: 800; letter-spacing: 0.05em; color: #f1f5f9; }
-        header p { color: #94a3b8; font-size: 1rem; margin-top: 0.5rem; }
+        header h1 { font-size: 2.2rem; font-weight: 800; letter-spacing: 0.05em; color: #f1f5f9; }
+        header p { color: #94a3b8; font-size: 1.1rem; margin-top: 0.5rem; }
         
-        nav { display: flex; justify-content: center; background: var(--secondary); padding: 0.85rem 1rem; gap: 1.75rem; flex-wrap: wrap; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border-bottom: 2px solid var(--accent); }
-        nav a { color: #cbd5e1; text-decoration: none; font-size: 0.95rem; font-weight: 600; padding: 0.25rem 0.5rem; transition: color 0.2s; }
-        nav a:hover { color: white; }
-        
-        .container { max-width: 1200px; margin: 2.5rem auto; padding: 0 1.5rem; }
-        
-        .filter-panel { background: white; padding: 1.25rem; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 2rem; display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
-        .filter-panel label { font-weight: 600; color: var(--text-dark); font-size: 0.95rem; }
-        .filter-panel select { padding: 0.5rem 1rem; border-radius: 4px; border: 1px solid var(--border); font-size: 0.9rem; background: var(--bg); font-weight: 600; color: var(--text-dark); cursor: pointer; outline: none; }
+        .status-bar { background: #e2e8f0; padding: 0.75rem 1rem; font-size: 0.9rem; font-weight: 600; text-align: center; color: var(--primary); border-bottom: 1px solid var(--border); }
+        .status-flash { color: var(--success); animation: blink 2s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
-        h2 { font-size: 1.5rem; color: var(--text-dark); margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border); display: flex; align-items: center; gap: 0.5rem; }
+        .container { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
         
-        .adsense-placeholder { background: #ffffff; border: 1px dashed #cbd5e1; border-radius: 6px; padding: 1rem; text-align: center; margin-bottom: 2.5rem; min-height: 90px; color: #94a3b8; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; }
+        /* Navigation Links Components */
+        .nav-tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; justify-content: center; }
+        .nav-tabs a { text-decoration: none; color: white; background: var(--secondary); padding: 0.6rem 1.2rem; border-radius: 6px; font-weight: 500; font-size: 0.95rem; transition: background 0.2s; }
+        .nav-tabs a:hover { background: var(--accent); }
 
-        .budget-section { margin-bottom: 3.5rem; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1rem; }
-        .card { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid var(--border); border-top: 4px solid var(--accent); transition: transform 0.2s; display: flex; flex-direction: column; justify-content: space-between; }
-        .card:hover { transform: translateY(-2px); }
-        .badge { background: #eff6ff; color: var(--accent); font-weight: 700; padding: 0.25rem 0.6rem; border-radius: 4px; font-size: 0.75rem; text-transform: uppercase; display: inline-block; margin-bottom: 0.75rem; }
-        
-        .probability { font-weight: 700; color: var(--success); display: inline-flex; align-items: center; margin: 0.5rem 0; padding: 0.25rem 0.5rem; background: #f0fdf4; border-radius: 4px; font-size: 0.9rem; }
-        .probability.warning { color: var(--warning); background: #fffbeb; }
-        
-        /* Interactive Action Button Design across Web Engine Grid */
-        .gov-link { display: inline-block; margin-top: 0.75rem; background: var(--accent); color: white !important; text-decoration: none; font-weight: 700; font-size: 0.85rem; padding: 0.6rem 1.2rem; border-radius: 4px; text-align: center; width: 100%; transition: background 0.2s; box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2); }
-        .gov-link:hover { background: #1d4ed8; text-decoration: none; box-shadow: 0 4px 6px rgba(29, 78, 216, 0.3); }
-        
-        .no-data { color: #64748b; font-style: italic; padding: 1rem 0; font-size: 0.9rem; }
+        /* Filter Panel Layer Styling */
+        .filter-panel { background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 2rem; display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .filter-group { display: flex; align-items: center; gap: 0.5rem; }
+        .filter-panel label { font-weight: 700; color: var(--text-dark); font-size: 0.95rem; }
+        .filter-panel select { padding: 0.6rem 1.2rem; border-radius: 6px; border: 1px solid var(--border); font-size: 0.95rem; background-color: #fff; font-weight: 600; color: var(--text-dark); outline: none; min-width: 200px; }
+        .filter-panel select:focus { border-color: var(--accent); }
 
-        section { background: white; padding: 2rem; border-radius: 8px; margin-bottom: 2.5rem; border: 1px solid var(--border); }
-        section ul, section ol { padding-left: 1.25rem; }
-        section li { margin-bottom: 1rem; font-size: 0.95rem; line-height: 1.6; }
+        /* Budget Grid Infrastructure */
+        .budget-section { margin-bottom: 2.5rem; }
+        .budget-section h2 { font-size: 1.4rem; color: var(--text-dark); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border); display: flex; align-items: center; gap: 0.5rem; }
         
-        /* Secondary Link Engine elements */
-        .inline-link { color: var(--accent); text-decoration: none; font-weight: 600; }
-        .inline-link:hover { text-decoration: underline; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, min-max(320px, 1fr)); gap: 1.5rem; margin-top: 1rem; }
+        @media (min-width: 768px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1024px) { .grid { grid-template-columns: repeat(3, 1fr); } }
 
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); overflow-y: auto; }
-        .modal-content { background-color: white; margin: 5% auto; padding: 2.5rem; border-radius: 8px; max-width: 800px; border: 1px solid var(--border); }
-        .close-btn { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
-        .close-btn:hover { color: black; }
+        /* Tender Presentation Card Element */
+        .tender-card { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 1px 3px rgba(0,0,0,0.02); transition: transform 0.2s, box-shadow 0.2s; }
+        .tender-card:hover { transform: translateY(-2px); box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .tender-title { font-size: 1.1rem; font-weight: 700; color: var(--text-dark); margin-bottom: 0.75rem; line-height: 1.4; }
+        .tender-meta { font-size: 0.85rem; color: #64748b; margin-bottom: 0.5rem; display: flex; flex-direction: column; gap: 0.25rem; }
+        .tender-value { font-size: 1.15rem; font-weight: 800; color: var(--accent); margin-top: 0.75rem; border-top: 1px dashed var(--border); padding-top: 0.75rem; }
+        .district-tag { display: inline-block; background: #eff6ff; color: var(--accent); padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 700; font-size: 0.75rem; width: fit-content; margin-top: 0.5rem; text-transform: uppercase; }
+        .no-data { grid-column: 1 / -1; text-align: center; padding: 3rem; color: #94a3b8; font-weight: 500; background: white; border-radius: 8px; border: 1px dashed var(--border); }
 
-        footer { background: var(--primary); color: #94a3b8; padding: 3.5rem 1.5rem 2rem; font-size: 0.85rem; border-top: 4px solid var(--accent); }
-        .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2.5rem; border-bottom: 1px solid #1e293b; padding-bottom: 2.5rem; }
-        .footer-col h4 { color: #f1f5f9; margin-bottom: 1.25rem; font-size: 0.95rem; font-weight: 700; text-transform: uppercase; }
-        .footer-col ul { list-style: none; padding: 0; }
-        .footer-col ul li { margin-bottom: 0.75rem; }
-        .footer-col ul li a { color: #94a3b8; text-decoration: none; cursor: pointer; transition: color 0.2s; }
-        .footer-col ul li a:hover { color: white; }
-        
-        .copyright { text-align: center; margin-top: 2rem; color: #64748b; font-size: 0.8rem; }
+        /* Descriptive Content Sections */
+        section { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
+        section h2 { font-size: 1.5rem; color: var(--text-dark); margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.5rem; }
+        ul, ol { padding-left: 1.5rem; }
+        li { margin-bottom: 0.75rem; color: var(--text); }
+        strong { color: var(--text-dark); }
+        .inline-link { color: var(--accent); font-weight: 600; text-decoration: none; border-bottom: 1px dashed var(--accent); }
+        .inline-link:hover { color: var(--primary); border-bottom-style: solid; }
+
+        footer { background: var(--primary); color: #94a3b8; text-align: center; padding: 2rem 1rem; font-size: 0.9rem; border-top: 1px solid #1e293b; margin-top: 4rem; }
     </style>
 </head>
 <body>
 
     <header>
         <h1>LOCAL MARKET OPPORTUNITY AI</h1>
-        <p>System Status: Auto-Pilot Active | Free Public Access Dashboard</p>
+        <p>Procurement Data Intelligence System Architecture</p>
     </header>
 
-    <nav>
-        <a href="#tenders-section">📊 Live Tenders</a>
-        <a href="#msme-niche">🎯 MSME Niche</a>
-        <a href="#protocols">⚙️ Bid Engine</a>
-        <a href="#about">ℹ️ About System</a>
-        <a href="#contact">📞 Contact Support</a>
-    </nav>
+    <div class="status-bar">
+        System Status: <span class="status-flash">● Auto-Pilot Active</span> | Free Public Access Dashboard Area
+    </div>
 
     <div class="container">
         
-        <!-- Google AdSense Header Banner -->
-        <div class="adsense-placeholder">
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </div>
+        <!-- Navigation Hub Components -->
+        <nav class="nav-tabs">
+            <a href="#dashboard-anchor">📊 Live Tenders</a>
+            <a href="#msme-niche">🎯 MSME Niche</a>
+            <a href="#protocols">⚙️ Bid Engine / Portal Guidelines</a>
+            <a href="mailto:support@example.com">📞 Contact Support</a>
+        </nav>
 
-        <div class="filter-panel">
-            <!-- Future Scaling Layer: India Expansion Track -->
-            <label for="stateSelector">🗺️ Active State:</label>
-            <select id="stateSelector" onchange="alert('Presently focused on Assam State Operations. India-wide rollout coming soon!')" style="padding: 6px 12px; margin-right: 15px; border-radius: 4px; border: 1px solid var(--border); font-weight: bold; background: #fff;">
-                <option value="Assam">Assam (Live Dashboard)</option>
-                <option value="India" disabled>All India (Planned Expansion - Locked)</option>
-            </select>
-
-            <!-- Complete 35 Districts Pure English Engine -->
-            <label for="districtFilter">📍 Region Filter:</label>
-            <select id="districtFilter" onchange="filterTenders()">
-                <option value="ALL">✨ Show All Districts (Pure Assam Grid)</option>
-                <option value="Bajali">Bajali</option>
-                <option value="Baksa">Baksa</option>
-                <option value="Barpeta">Barpeta</option>
-                <option value="Biswanath">Biswanath</option>
-                <option value="Bongaigaon">Bongaigaon</option>
-                <option value="Cachar">Cachar</option>
-                <option value="Charaideo">Charaideo</option>
-                <option value="Chirang">Chirang</option>
-                <option value="Darrang">Darrang</option>
-                <option value="Dhemaji">Dhemaji</option>
-                <option value="Dhubri">Dhubri</option>
-                <option value="Dibrugarh">Dibrugarh</option>
-                <option value="Dima Hasao">Dima Hasao</option>
-                <option value="Goalpara">Goalpara</option>
-                <option value="Golaghat">Golaghat</option>
-                <option value="Hailakandi">Hailakandi</option>
-                <option value="Hojai">Hojai</option>
-                <option value="Jorhat">Jorhat</option>
-                <option value="Kamrup">Kamrup</option>
-                <option value="Kamrup Metropolitan">Kamrup Metropolitan</option>
-                <option value="Karbi Anglong">Karbi Anglong</option>
-                <option value="Karimganj">Karimganj</option>
-                <option value="Kokrajhar">Kokrajhar</option>
-                <option value="Lakhimpur">Lakhimpur</option>
-                <option value="Majuli">Majuli</option>
-                <option value="Morigaon">Morigaon</option>
-                <option value="Nagaon">Nagaon</option>
-                <option value="Nalbari">Nalbari</option>
-                <option value="Sivasagar">Sivasagar</option>
-                <option value="Sonitpur">Sonitpur</option>
-                <option value="South Salmara-Mankachar">South Salmara-Mankachar</option>
-                <option value="Tamulpur">Tamulpur</option>
-                <option value="Tinsukia">Tinsukia</option>
-                <option value="Udalguri">Udalguri</option>
-                <option value="West Karbi Anglong">West Karbi Anglong</option>
-            </select>
-        </div>
-        </div>
-
-        <!-- LIVE SEPARATED BUDGET GRID LAYER -->
-        <div id="tenders-section">
-            <div class="budget-section">
-                <h2>⚙️ Small Budget Contracts (Up to ₹50 Lakh)</h2>
-                <div class="grid" id="smallGrid"></div>
+        <!-- Dynamic Dropdown Filtering Engine Layout -->
+        <div class="filter-panel" id="dashboard-anchor">
+            <div class="filter-group">
+                <label for="stateSelector">🗺️ Active State:</label>
+                <select id="stateSelector" onchange="alert('Presently focused on Assam State Operations. India-wide rollout coming soon!')">
+                    <option value="Assam">Assam (Live Data Channels)</option>
+                    <option value="India" disabled>All India (Planned Expansion - Locked)</option>
+                </select>
             </div>
 
-            <div class="budget-section">
-                <h2>⚙️ Medium Budget Contracts (₹50 Lakh to ₹2 Crore)</h2>
-                <div class="grid" id="mediumGrid"></div>
-            </div>
-
-            <div class="budget-section">
-                <h2>⚙️ Large / Mega Project Contracts (Above ₹2 Crore)</h2>
-                <div class="grid" id="megaGrid"></div>
+            <div class="filter-group">
+                <label for="districtFilter">📍 Region Filter:</label>
+                <select id="districtFilter" onchange="filterTenders()">
+                    <option value="ALL">✨ Show All Districts (Pure Assam Grid)</option>
+                    <option value="Bajali">Bajali</option>
+                    <option value="Baksa">Baksa</option>
+                    <option value="Barpeta">Barpeta</option>
+                    <option value="Biswanath">Biswanath</option>
+                    <option value="Bongaigaon">Bongaigaon</option>
+                    <option value="Cachar">Cachar</option>
+                    <option value="Charaideo">Charaideo</option>
+                    <option value="Chirang">Chirang</option>
+                    <option value="Darrang">Darrang</option>
+                    <option value="Dhemaji">Dhemaji</option>
+                    <option value="Dhubri">Dhubri</option>
+                    <option value="Dibrugarh">Dibrugarh</option>
+                    <option value="Dima Hasao">Dima Hasao</option>
+                    <option value="Goalpara">Goalpara</option>
+                    <option value="Golaghat">Golaghat</option>
+                    <option value="Hailakandi">Hailakandi</option>
+                    <option value="Hojai">Hojai</option>
+                    <option value="Jorhat">Jorhat</option>
+                    <option value="Kamrup">Kamrup</option>
+                    <option value="Kamrup Metropolitan">Kamrup Metropolitan</option>
+                    <option value="Karbi Anglong">Karbi Anglong</option>
+                    <option value="Karimganj">Karimganj</option>
+                    <option value="Kokrajhar">Kokrajhar</option>
+                    <option value="Lakhimpur">Lakhimpur</option>
+                    <option value="Majuli">Majuli</option>
+                    <option value="Morigaon">Morigaon</option>
+                    <option value="Nagaon">Nagaon</option>
+                    <option value="Nalbari">Nalbari</option>
+                    <option value="Sivasagar">Sivasagar</option>
+                    <option value="Sonitpur">Sonitpur</option>
+                    <option value="South Salmara-Mankachar">South Salmara-Mankachar</option>
+                    <option value="Tamulpur">Tamulpur</option>
+                    <option value="Tinsukia">Tinsukia</option>
+                    <option value="Udalguri">Udalguri</option>
+                    <option value="West Karbi Anglong">West Karbi Anglong</option>
+                </select>
             </div>
         </div>
 
-        <!-- MSME SECTION WITH LIVE CLICKABLE LINKS -->
-        <section id="msme-niche">
-            <h2>🎯 MSME Niche Focus & Reserved Gateways</h2>
-            <ul>
-                <li><strong>EMD Validation Rules:</strong> Dynamic tender fee waivers and Earnest Money Deposit (EMD) exemptions for rural micro/small business units under active Assam state procurement lines. Verify rules on the official <a href="https://assam.gov.in" target="_blank" class="inline-link">Assam Tenders Portal →</a></li>
-                <li><strong>BTC Special Quotas:</strong> Reserved contract clusters mapping dedicated allocations for indigenous local contractors within the Bodoland Territorial Region (BTR). View guidelines via <a href="https://bodoland.gov.in" target="_blank" class="inline-link">BTR Council Site →</a></li>
-            </ul>
-        </section>
+        <!-- LIVE TARGET PANELS AND GRIDS -->
+        <div class="budget-section">
+            <h2>⚙️ Small Budget Contracts (Up to ₹50 Lakh)</h2>
+            <div class="grid" id="smallGrid"></div>
+        </div>
 
-        <!-- OPERATIONS SECTION WITH LIVE CLICKABLE LINKS -->
-        <section id="protocols">
-            <h2>⚙️ How to Apply (Udalguri Regional Tenders)</h2>
-            <ol>
-                <li><strong>Cryptographic Authorization:</strong> Secure a valid Class-III Digital Signature Certificate (DSC) necessary for executing technical transaction bids. Check empanelled vendors at <a href="https://cca.gov.in" target="_blank" class="inline-link">CCA India Grid →</a></li>
+        <div class="budget-section">
+            <h2>⚙️ Medium Budget Contracts (₹50 Lakh to ₹2 Crore)</h2>
+            <div class="grid" id="mediumGrid"></div>
+        </div>

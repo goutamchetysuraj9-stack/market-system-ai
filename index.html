@@ -1,86 +1,107 @@
 <script>
-        // DATA MATRIX DUMP
-        const tendersData = [
-            { id: "T1", title: "Supply of High Efficiency Solar Irrigation Pumps", dept: "Agriculture Department, Assam", budget: 4200000, district: "Udalguri" },
-            { id: "T2", title: "Construction of Composite Community Hall Complex", dept: "PWD Department", budget: 8500000, district: "Kokrajhar" },
-            { id: "T3", title: "Construction of Model Anganwadi Center Facility", dept: "Social Welfare Line", budget: 2800000, district: "Goalpara" },
-            { id: "T4", title: "Smart City Drainage System Integration Phase III", dept: "Guwahati Development Department", budget: 45000000, district: "Kamrup Metropolitan" },
-            { id: "T5", title: "Embankment Rehabilitation & Flood Control Works", dept: "Water Resources Division", budget: 14000000, district: "Barpeta" },
-            { id: "T6", title: "Rural Drinking Water Pipeline Grid Layout Setup", dept: "PHE Department", budget: 3500000, district: "Nagaon" },
-            { id: "T7", title: "Procurement of Medical Lab Infrastructure Equipment", dept: "Health & Family Welfare Division", budget: 6200000, district: "Dibrugarh" }
-        ];
+// Global array jisme fetch kiya hua data load hoga
+let tendersData = [];
 
-        // System load hook up sequence
-        window.addEventListener('DOMContentLoaded', () => {
-            filterTenders();
+// System load hook up sequence
+window.addEventListener('DOMContentLoaded', () => {
+    // Live JSON matrix ko local repository ya public path se fetch karna
+    fetch('tenders.json')
+        .then(response => response.json())
+        .then(data => {
+            tendersData = data;
+            filterTenders(); // Data successfully load hone ke baad render trigger hoga
+        })
+        .catch(err => {
+            console.error("Database matrix sync layout error, details:", err);
+            // Fallback content loading if files are missing
+            executeFallbackUILayout();
         });
+});
 
-        // FIXED FILTER LOGIC ENGINE
-        function filterTenders() {
-            const selectedDistrict = document.getElementById("districtFilter").value;
-            const applyHeader = document.getElementById("applyGuideHeader");
+// FIXED FILTER & GRID ROUTING ENGINE
+function filterTenders() {
+    const districtFilterElement = document.getElementById("districtFilter");
+    const selectedDistrict = districtFilterElement ? districtFilterElement.value : "ALL";
+    const applyHeader = document.getElementById("applyGuideHeader");
+
+    // 1. Title transformation update engine
+    if (applyHeader) {
+        if (selectedDistrict === "ALL") {
+            applyHeader.innerText = "⚙️ How to Apply (Assam State Tenders)";
+        } else {
+            applyHeader.innerText = `⚙️ How to Apply (${selectedDistrict} Regional Tenders)`;
+        }
+    }
+
+    // 2. Fetching DOM references securely
+    const smallGrid = document.getElementById("smallGrid");
+    const mediumGrid = document.getElementById("mediumGrid");
+    const megaGrid = document.getElementById("megaGrid");
+
+    // Clearing containers cleanly before injecting new cards
+    if(smallGrid) smallGrid.innerHTML = "";
+    if(mediumGrid) mediumGrid.innerHTML = "";
+    if(megaGrid) megaGrid.innerHTML = "";
+
+    let smallCount = 0, mediumCount = 0, megaCount = 0;
+
+    // 3. Iteration array parsing pipeline
+    tendersData.forEach(tender => {
+        // District selection boundary check (String formatting patterns)
+        const locationLower = tender.location.toLowerCase();
+        const filterLower = selectedDistrict.toLowerCase();
+        
+        if (selectedDistrict === "ALL" || locationLower.includes(filterLower)) {
             
-            // 1. Title transformation update engine
-            if (applyHeader) {
-                if (selectedDistrict === "ALL") {
-                    applyHeader.innerText = "⚙️ How to Apply (Assam State Tenders)";
-                } else {
-                    applyHeader.innerText = `⚙️ How to Apply (${selectedDistrict} Regional Tenders)`;
-                }
-            }
+            // Critical Matrix Fix: Currency text string ko numeric budget integer me badalna
+            const numericBudget = parseInt(tender.budget.replace(/[^0-9]/g, ''), 10) || 0;
 
-            // 2. Fetching references with double checked strict layout mapping
-            const smallGrid = document.getElementById("smallGrid");
-            const mediumGrid = document.getElementById("mediumGrid");
-            const megaGrid = document.getElementById("megaGrid");
-            
-            // Clearing containers cleanly
-            if(smallGrid) smallGrid.innerHTML = "";
-            if(mediumGrid) mediumGrid.innerHTML = "";
-            if(megaGrid) megaGrid.innerHTML = "";
+            // Safe fallback URL structure verification
+            const exactLink = tender.link ? tender.link : "https://assamtenders.gov.in/";
 
-            let smallCount = 0, mediumCount = 0, megaCount = 0;
-
-            // 3. Iteration array parsing pipeline
-            tendersData.forEach(tender => {
-                if (selectedDistrict === "ALL" || tender.district === selectedDistrict) {
-                    
-                    const cardHTML = `
-                        <div class="tender-card">
-                            <div>
-                                <div class="tender-title">${tender.title}</div>
-                                <div class="tender-meta">
-                                    <span><strong>Dept:</strong> ${tender.dept}</span>
-                                    <span><strong>ID:</strong> ${tender.id}</span>
-                                </div>
-                            </div>
-                            <div>
-                                <span class="district-tag">${tender.district}</span>
-                                <div class="tender-value">${formatIndianCurrency(tender.budget)}</div>
-                            </div>
+            const cardHTML = `
+                <div class="tender-card" style="margin-bottom:15px; padding:15px; border-radius:8px; background:#fff; box-shadow:0 2px 5px rgba(0,0,0,0.05); display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <div class="tender-title" style="font-weight:600; font-size:1.1rem; color:#2c3e50; margin-bottom:5px;">${tender.title}</div>
+                        <div class="tender-meta" style="font-size:0.9rem; color:#7f8c8d;">
+                            <span style="margin-right:15px;"><strong>Dept:</strong> ${tender.department}</span>
+                            <span style="margin-right:15px;"><strong>Deadline:</strong> ${tender.deadline}</span>
+                            <span><strong>Win Chance:</strong> <span style="color:#27ae60; font-weight:bold;">${tender.win_probability}%</span></span>
                         </div>
-                    `;
+                    </div>
+                    <div style="text-align:right; min-width:150px;">
+                        <span class="district-tag" style="background:#e8f4fd; color:#1e3c72; padding:3px 8px; border-radius:4px; font-size:0.8rem; font-weight:600; display:inline-block; margin-bottom:5px;">${tender.location}</span>
+                        <div class="tender-value" style="font-size:1.2rem; font-weight:700; color:#1e3c72; margin-bottom:8px;">${tender.budget}</div>
+                        <a href="${exactLink}" target="_blank" class="apply-btn" style="background:#1e3c72; color:#fff; text-decoration:none; padding:5px 12px; font-size:0.85rem; border-radius:4px; font-weight:600; display:inline-block;">View Portal →</a>
+                    </div>
+                </div>
+            `;
 
-                    // Routing logic metrics directly to grids
-                    if (tender.budget <= 5000000) {
-                        if(smallGrid) { smallGrid.innerHTML += cardHTML; smallCount++; }
-                    } else if (tender.budget <= 20000000) {
-                        if(mediumGrid) { mediumGrid.innerHTML += cardHTML; mediumCount++; }
-                    } else {
-                        if(megaGrid) { megaGrid.innerHTML += cardHTML; megaCount++; }
-                    }
-                }
-            });
-
-            // 4. Fallback rendering context execution parameters
-            const fallbackHTML = `<div class="no-data">✨ No active contracts found for this district selection layout placeholder.</div>`;
-            if (smallCount === 0 && smallGrid) smallGrid.innerHTML = fallbackHTML;
-            if (mediumCount === 0 && mediumGrid) mediumGrid.innerHTML = fallbackHTML;
-            if (megaCount === 0 && megaGrid) megaGrid.innerHTML = fallbackHTML;
+            // Routing logic metrics directly to clean grids based on numeric values
+            if (numericBudget <= 5000000) {
+                if(smallGrid) { smallGrid.innerHTML += cardHTML; smallCount++; }
+            } else if (numericBudget <= 20000000) {
+                if(mediumGrid) { mediumGrid.innerHTML += cardHTML; mediumCount++; }
+            } else {
+                if(megaGrid) { megaGrid.innerHTML += cardHTML; megaCount++; }
+            }
         }
+    });
 
-        // Standard dynamic localized conversion formatting tool
-        function formatIndianCurrency(num) {
-            return "₹" + num.toLocaleString('en-IN');
-        }
-    </script>
+    // 4. Fallback rendering parameters code block if clean grids remain empty
+    const fallbackHTML = `<div class="no-data" style="padding:20px; text-align:center; color:#888; font-style:italic;">✨ No active automated contracts found for this specific grid layout placeholder.</div>`;
+    
+    if (smallCount === 0 && smallGrid) smallGrid.innerHTML = fallbackHTML;
+    if (mediumCount === 0 && mediumGrid) mediumGrid.innerHTML = fallbackHTML;
+    if (megaCount === 0 && megaGrid) megaGrid.innerHTML = fallbackHTML;
+}
+
+// Global script fallback configuration
+function executeFallbackUILayout() {
+    const fallbackHTML = `<div class="no-data" style="padding:20px; text-align:center; color:#c0392b; font-weight:500;">⚠️ Error loading matrix. Please ensure tenders.json is successfully generated by automation framework.</div>`;
+    ['smallGrid', 'mediumGrid', 'megaGrid'].forEach(id => {
+        const grid = document.getElementById(id);
+        if(grid) grid.innerHTML = fallbackHTML;
+    });
+}
+</script>

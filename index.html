@@ -1,158 +1,86 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LMO-AI | Assam Public Procurement & Tender Intelligence Dashboard</title>
-    <!-- AdSense Verification Auto-Ads Script Configuration -->
-    <script async src="https://googlesyndication.com" crossorigin="anonymous"></script>
-    <style>
-        :root {
-            --primary: #0f172a;
-            --secondary: #1e293b;
-            --accent: #2563eb;
-            --success: #16a34a;
-            --warning: #d97706;
-            --bg: #f8fafc;
-            --text: #334155;
-            --text-dark: #0f172a;
-            --border: #e2e8f0;
+<script>
+        // DATA MATRIX DUMP
+        const tendersData = [
+            { id: "T1", title: "Supply of High Efficiency Solar Irrigation Pumps", dept: "Agriculture Department, Assam", budget: 4200000, district: "Udalguri" },
+            { id: "T2", title: "Construction of Composite Community Hall Complex", dept: "PWD Department", budget: 8500000, district: "Kokrajhar" },
+            { id: "T3", title: "Construction of Model Anganwadi Center Facility", dept: "Social Welfare Line", budget: 2800000, district: "Goalpara" },
+            { id: "T4", title: "Smart City Drainage System Integration Phase III", dept: "Guwahati Development Department", budget: 45000000, district: "Kamrup Metropolitan" },
+            { id: "T5", title: "Embankment Rehabilitation & Flood Control Works", dept: "Water Resources Division", budget: 14000000, district: "Barpeta" },
+            { id: "T6", title: "Rural Drinking Water Pipeline Grid Layout Setup", dept: "PHE Department", budget: 3500000, district: "Nagaon" },
+            { id: "T7", title: "Procurement of Medical Lab Infrastructure Equipment", dept: "Health & Family Welfare Division", budget: 6200000, district: "Dibrugarh" }
+        ];
+
+        // System load hook up sequence
+        window.addEventListener('DOMContentLoaded', () => {
+            filterTenders();
+        });
+
+        // FIXED FILTER LOGIC ENGINE
+        function filterTenders() {
+            const selectedDistrict = document.getElementById("districtFilter").value;
+            const applyHeader = document.getElementById("applyGuideHeader");
+            
+            // 1. Title transformation update engine
+            if (applyHeader) {
+                if (selectedDistrict === "ALL") {
+                    applyHeader.innerText = "⚙️ How to Apply (Assam State Tenders)";
+                } else {
+                    applyHeader.innerText = `⚙️ How to Apply (${selectedDistrict} Regional Tenders)`;
+                }
+            }
+
+            // 2. Fetching references with double checked strict layout mapping
+            const smallGrid = document.getElementById("smallGrid");
+            const mediumGrid = document.getElementById("mediumGrid");
+            const megaGrid = document.getElementById("megaGrid");
+            
+            // Clearing containers cleanly
+            if(smallGrid) smallGrid.innerHTML = "";
+            if(mediumGrid) mediumGrid.innerHTML = "";
+            if(megaGrid) megaGrid.innerHTML = "";
+
+            let smallCount = 0, mediumCount = 0, megaCount = 0;
+
+            // 3. Iteration array parsing pipeline
+            tendersData.forEach(tender => {
+                if (selectedDistrict === "ALL" || tender.district === selectedDistrict) {
+                    
+                    const cardHTML = `
+                        <div class="tender-card">
+                            <div>
+                                <div class="tender-title">${tender.title}</div>
+                                <div class="tender-meta">
+                                    <span><strong>Dept:</strong> ${tender.dept}</span>
+                                    <span><strong>ID:</strong> ${tender.id}</span>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="district-tag">${tender.district}</span>
+                                <div class="tender-value">${formatIndianCurrency(tender.budget)}</div>
+                            </div>
+                        </div>
+                    `;
+
+                    // Routing logic metrics directly to grids
+                    if (tender.budget <= 5000000) {
+                        if(smallGrid) { smallGrid.innerHTML += cardHTML; smallCount++; }
+                    } else if (tender.budget <= 20000000) {
+                        if(mediumGrid) { mediumGrid.innerHTML += cardHTML; mediumCount++; }
+                    } else {
+                        if(megaGrid) { megaGrid.innerHTML += cardHTML; megaCount++; }
+                    }
+                }
+            });
+
+            // 4. Fallback rendering context execution parameters
+            const fallbackHTML = `<div class="no-data">✨ No active contracts found for this district selection layout placeholder.</div>`;
+            if (smallCount === 0 && smallGrid) smallGrid.innerHTML = fallbackHTML;
+            if (mediumCount === 0 && mediumGrid) mediumGrid.innerHTML = fallbackHTML;
+            if (megaCount === 0 && megaGrid) megaGrid.innerHTML = fallbackHTML;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
-        
-        header { background: var(--primary); color: white; padding: 2.5rem 1rem; text-align: center; border-bottom: 1px solid #1e293b; }
-        header h1 { font-size: 2.2rem; font-weight: 800; letter-spacing: 0.05em; color: #f1f5f9; }
-        header p { color: #94a3b8; font-size: 1.1rem; margin-top: 0.5rem; }
-        
-        .status-bar { background: #e2e8f0; padding: 0.75rem 1rem; font-size: 0.9rem; font-weight: 600; text-align: center; color: var(--primary); border-bottom: 1px solid var(--border); }
-        .status-flash { color: var(--success); animation: blink 2s infinite; }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
-        .container { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
-        
-        /* Navigation Links Components */
-        .nav-tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; justify-content: center; }
-        .nav-tabs a { text-decoration: none; color: white; background: var(--secondary); padding: 0.6rem 1.2rem; border-radius: 6px; font-weight: 500; font-size: 0.95rem; transition: background 0.2s; }
-        .nav-tabs a:hover { background: var(--accent); }
-
-        /* Filter Panel Layer Styling */
-        .filter-panel { background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 2rem; display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-        .filter-group { display: flex; align-items: center; gap: 0.5rem; }
-        .filter-panel label { font-weight: 700; color: var(--text-dark); font-size: 0.95rem; }
-        .filter-panel select { padding: 0.6rem 1.2rem; border-radius: 6px; border: 1px solid var(--border); font-size: 0.95rem; background-color: #fff; font-weight: 600; color: var(--text-dark); outline: none; min-width: 200px; }
-        .filter-panel select:focus { border-color: var(--accent); }
-
-        /* Budget Grid Infrastructure */
-        .budget-section { margin-bottom: 2.5rem; }
-        .budget-section h2 { font-size: 1.4rem; color: var(--text-dark); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border); display: flex; align-items: center; gap: 0.5rem; }
-        
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, min-max(320px, 1fr)); gap: 1.5rem; margin-top: 1rem; }
-        @media (min-width: 768px) { .grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (min-width: 1024px) { .grid { grid-template-columns: repeat(3, 1fr); } }
-
-        /* Tender Presentation Card Element */
-        .tender-card { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 1px 3px rgba(0,0,0,0.02); transition: transform 0.2s, box-shadow 0.2s; }
-        .tender-card:hover { transform: translateY(-2px); box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .tender-title { font-size: 1.1rem; font-weight: 700; color: var(--text-dark); margin-bottom: 0.75rem; line-height: 1.4; }
-        .tender-meta { font-size: 0.85rem; color: #64748b; margin-bottom: 0.5rem; display: flex; flex-direction: column; gap: 0.25rem; }
-        .tender-value { font-size: 1.15rem; font-weight: 800; color: var(--accent); margin-top: 0.75rem; border-top: 1px dashed var(--border); padding-top: 0.75rem; }
-        .district-tag { display: inline-block; background: #eff6ff; color: var(--accent); padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 700; font-size: 0.75rem; width: fit-content; margin-top: 0.5rem; text-transform: uppercase; }
-        .no-data { grid-column: 1 / -1; text-align: center; padding: 3rem; color: #94a3b8; font-weight: 500; background: white; border-radius: 8px; border: 1px dashed var(--border); }
-
-        /* Descriptive Content Sections */
-        section { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
-        section h2 { font-size: 1.5rem; color: var(--text-dark); margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.5rem; }
-        ul, ol { padding-left: 1.5rem; }
-        li { margin-bottom: 0.75rem; color: var(--text); }
-        strong { color: var(--text-dark); }
-        .inline-link { color: var(--accent); font-weight: 600; text-decoration: none; border-bottom: 1px dashed var(--accent); }
-        .inline-link:hover { color: var(--primary); border-bottom-style: solid; }
-
-        footer { background: var(--primary); color: #94a3b8; text-align: center; padding: 2rem 1rem; font-size: 0.9rem; border-top: 1px solid #1e293b; margin-top: 4rem; }
-    </style>
-</head>
-<body>
-
-    <header>
-        <h1>LOCAL MARKET OPPORTUNITY AI</h1>
-        <p>Procurement Data Intelligence System Architecture</p>
-    </header>
-
-    <div class="status-bar">
-        System Status: <span class="status-flash">● Auto-Pilot Active</span> | Free Public Access Dashboard Area
-    </div>
-
-    <div class="container">
-        
-        <!-- Navigation Hub Components -->
-        <nav class="nav-tabs">
-            <a href="#dashboard-anchor">📊 Live Tenders</a>
-            <a href="#msme-niche">🎯 MSME Niche</a>
-            <a href="#protocols">⚙️ Bid Engine / Portal Guidelines</a>
-            <a href="mailto:support@example.com">📞 Contact Support</a>
-        </nav>
-
-        <!-- Dynamic Dropdown Filtering Engine Layout -->
-        <div class="filter-panel" id="dashboard-anchor">
-            <div class="filter-group">
-                <label for="stateSelector">🗺️ Active State:</label>
-                <select id="stateSelector" onchange="alert('Presently focused on Assam State Operations. India-wide rollout coming soon!')">
-                    <option value="Assam">Assam (Live Data Channels)</option>
-                    <option value="India" disabled>All India (Planned Expansion - Locked)</option>
-                </select>
-            </div>
-
-            <div class="filter-group">
-                <label for="districtFilter">📍 Region Filter:</label>
-                <select id="districtFilter" onchange="filterTenders()">
-                    <option value="ALL">✨ Show All Districts (Pure Assam Grid)</option>
-                    <option value="Bajali">Bajali</option>
-                    <option value="Baksa">Baksa</option>
-                    <option value="Barpeta">Barpeta</option>
-                    <option value="Biswanath">Biswanath</option>
-                    <option value="Bongaigaon">Bongaigaon</option>
-                    <option value="Cachar">Cachar</option>
-                    <option value="Charaideo">Charaideo</option>
-                    <option value="Chirang">Chirang</option>
-                    <option value="Darrang">Darrang</option>
-                    <option value="Dhemaji">Dhemaji</option>
-                    <option value="Dhubri">Dhubri</option>
-                    <option value="Dibrugarh">Dibrugarh</option>
-                    <option value="Dima Hasao">Dima Hasao</option>
-                    <option value="Goalpara">Goalpara</option>
-                    <option value="Golaghat">Golaghat</option>
-                    <option value="Hailakandi">Hailakandi</option>
-                    <option value="Hojai">Hojai</option>
-                    <option value="Jorhat">Jorhat</option>
-                    <option value="Kamrup">Kamrup</option>
-                    <option value="Kamrup Metropolitan">Kamrup Metropolitan</option>
-                    <option value="Karbi Anglong">Karbi Anglong</option>
-                    <option value="Karimganj">Karimganj</option>
-                    <option value="Kokrajhar">Kokrajhar</option>
-                    <option value="Lakhimpur">Lakhimpur</option>
-                    <option value="Majuli">Majuli</option>
-                    <option value="Morigaon">Morigaon</option>
-                    <option value="Nagaon">Nagaon</option>
-                    <option value="Nalbari">Nalbari</option>
-                    <option value="Sivasagar">Sivasagar</option>
-                    <option value="Sonitpur">Sonitpur</option>
-                    <option value="South Salmara-Mankachar">South Salmara-Mankachar</option>
-                    <option value="Tamulpur">Tamulpur</option>
-                    <option value="Tinsukia">Tinsukia</option>
-                    <option value="Udalguri">Udalguri</option>
-                    <option value="West Karbi Anglong">West Karbi Anglong</option>
-                </select>
-            </div>
-        </div>
-
-        <!-- LIVE TARGET PANELS AND GRIDS -->
-        <div class="budget-section">
-            <h2>⚙️ Small Budget Contracts (Up to ₹50 Lakh)</h2>
-            <div class="grid" id="smallGrid"></div>
-        </div>
-
-        <div class="budget-section">
-            <h2>⚙️ Medium Budget Contracts (₹50 Lakh to ₹2 Crore)</h2>
-            <div class="grid" id="mediumGrid"></div>
-        </div>
+        // Standard dynamic localized conversion formatting tool
+        function formatIndianCurrency(num) {
+            return "₹" + num.toLocaleString('en-IN');
+        }
+    </script>

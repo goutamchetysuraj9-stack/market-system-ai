@@ -1,109 +1,182 @@
-<script>
-let tendersData = [];
-
-window.addEventListener('DOMContentLoaded', () => {
-    fetch('./tenders.json')
-        .then(response => {
-            if (!response.ok) throw new Error("HTTP error! Status: " + response.status);
-            return response.text();
-        })
-        .then(textData => {
-            let cleanedText = textData.trim();
-            // JSON aakhiri comma fix
-            if (cleanedText.endsWith(',')) cleanedText = cleanedText.slice(0, -1);
-            cleanedText = cleanedText.replace(/,\s*\]\s*,?$/, ']');
-            
-            const data = JSON.parse(cleanedText);
-            tendersData = Array.isArray(data) ? data : [];
-            filterTenders(); 
-        })
-        .catch(err => {
-            console.error("Database sync layout error:", err);
-            executeFallbackUILayout();
-        });
-});
-
-function filterTenders() {
-    const districtFilterElement = document.getElementById("districtFilter");
-    const selectedDistrict = districtFilterElement ? districtFilterElement.value : "ALL";
-    const applyHeader = document.getElementById("applyGuideHeader");
-
-    if (applyHeader) {
-        applyHeader.innerText = selectedDistrict === "ALL" ? "⚙️ How to Apply (Assam State Tenders)" : `⚙️ How to Apply (${selectedDistrict} Regional Tenders)`;
-    }
-
-    const smallGrid = document.getElementById("smallGrid");
-    const mediumGrid = document.getElementById("mediumGrid");
-    const megaGrid = document.getElementById("megaGrid");
-
-    if(smallGrid) smallGrid.innerHTML = "";
-    if(mediumGrid) mediumGrid.innerHTML = "";
-    if(megaGrid) megaGrid.innerHTML = "";
-
-    let smallCount = 0, mediumCount = 0, megaCount = 0;
-
-    if (!tendersData || tendersData.length === 0) {
-        showNoDataFallback();
-        return;
-    }
-
-    tendersData.forEach(tender => {
-        if (!tender || !tender.location || !tender.budget) return;
-
-        const locationLower = tender.location.toLowerCase();
-        const filterLower = selectedDistrict.toLowerCase();
-        
-        if (selectedDistrict === "ALL" || locationLower.includes(filterLower)) {
-            const numericBudget = parseInt(tender.budget.replace(/[^0-9]/g, ''), 10) || 0;
-            const exactLink = tender.link ? tender.link : "https://assamtenders.gov.in";
-
-            const cardHTML = `
-                <div class="tender-card" style="margin-bottom:15px; padding:15px; border-radius:8px; background:#fff; box-shadow:0 2px 5px rgba(0,0,0,0.05); display:flex; justify-content:space-between; align-items:center;">
-                    <div>
-                        <div class="tender-title" style="font-weight:600; font-size:1.1rem; color:#2c3e50; margin-bottom:5px;">${tender.title || 'Untitled Tender'}</div>
-                        <div class="tender-meta" style="font-size:0.9rem; color:#7f8c8d;">
-                            <span style="margin-right:15px;"><strong>Dept:</strong> ${tender.department || 'N/A'}</span>
-                            <span style="margin-right:15px;"><strong>Deadline:</strong> ${tender.deadline || 'N/A'}</span>
-                            <span><strong>Win Chance:</strong> <span style="color:#27ae60; font-weight:bold;">${tender.win_probability || '0'}%</span></span>
-                        </div>
-                    </div>
-                    <div style="text-align:right; min-width:150px;">
-                        <span class="district-tag" style="background:#e8f4fd; color:#1e3c72; padding:3px 8px; border-radius:4px; font-size:0.8rem; font-weight:600; display:inline-block; margin-bottom:5px;">${tender.location}</span>
-                        <div class="tender-value" style="font-size:1.2rem; font-weight:700; color:#1e3c72; margin-bottom:8px;">${tender.budget}</div>
-                        <a href="${exactLink}" target="_blank" class="apply-btn" style="background:#1e3c72; color:#fff; text-decoration:none; padding:5px 12px; font-size:0.85rem; border-radius:4px; font-weight:600; display:inline-block;">View Portal →</a>
-                    </div>
-                </div>
-            `;
-
-            if (numericBudget <= 5000000) {
-                if(smallGrid) { smallGrid.innerHTML += cardHTML; smallCount++; }
-            } else if (numericBudget <= 20000000) {
-                if(mediumGrid) { mediumGrid.innerHTML += cardHTML; mediumCount++; }
-            } else {
-                if(megaGrid) { megaGrid.innerHTML += cardHTML; megaCount++; }
-            }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMO-AI | Assam & Udalguri Public Procurement & Tender Intelligence Dashboard</title>
+    <!-- AdSense Verification Auto-Ads Script Configuration -->
+    <script async src="https://googlesyndication.com" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --primary: #0f172a;
+            --secondary: #1e293b;
+            --accent: #2563eb;
+            --success: #16a34a;
+            --warning: #d97706;
+            --bg: #f8fafc;
+            --text: #334155;
+            --text-dark: #0f172a;
+            --border: #e2e8f0;
         }
+        * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
+        
+        header { background: var(--primary); color: white; padding: 2.5rem 1rem; text-align: center; border-bottom: 1px solid #1e293b; }
+        header h1 { font-size: 2rem; font-weight: 800; letter-spacing: 0.05em; color: #f1f5f9; }
+        header p { color: #94a3b8; font-size: 1rem; margin-top: 0.5rem; }
+        
+        nav { display: flex; justify-content: center; background: var(--secondary); padding: 0.85rem 1rem; gap: 1.75rem; flex-wrap: wrap; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border-bottom: 2px solid var(--accent); }
+        nav a { color: #cbd5e1; text-decoration: none; font-size: 0.95rem; font-weight: 600; padding: 0.25rem 0.5rem; transition: color 0.2s; }
+        nav a:hover { color: white; }
+        
+        .container { max-width: 1200px; margin: 2.5rem auto; padding: 0 1.5rem; }
+        
+        .filter-panel { background: white; padding: 1.25rem; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 2rem; display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+        .filter-panel label { font-weight: 600; color: var(--text-dark); font-size: 0.95rem; }
+        .filter-panel select { padding: 0.5rem 1rem; border-radius: 4px; border: 1px solid var(--border); font-size: 0.9rem; background: var(--bg); font-weight: 600; color: var(--text-dark); cursor: pointer; outline: none; }
+
+        h2 { font-size: 1.5rem; color: var(--text-dark); margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border); display: flex; align-items: center; gap: 0.5rem; }
+        
+        .adsense-placeholder { background: #ffffff; border: 1px dashed #cbd5e1; border-radius: 6px; padding: 1rem; text-align: center; margin-bottom: 2.5rem; min-height: 90px; color: #94a3b8; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; }
+
+        .budget-section { margin-bottom: 3.5rem; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1rem; }
+        .card { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid var(--border); border-top: 4px solid var(--accent); transition: transform 0.2s; display: flex; flex-direction: column; justify-content: space-between; }
+        .card:hover { transform: translateY(-2px); }
+        .badge { background: #eff6ff; color: var(--accent); font-weight: 700; padding: 0.25rem 0.6rem; border-radius: 4px; font-size: 0.75rem; text-transform: uppercase; display: inline-block; margin-bottom: 0.75rem; }
+        
+        .probability { font-weight: 700; color: var(--success); display: inline-flex; align-items: center; margin: 0.5rem 0; padding: 0.25rem 0.5rem; background: #f0fdf4; border-radius: 4px; font-size: 0.9rem; }
+        .probability.warning { color: var(--warning); background: #fffbeb; }
+        
+        .gov-link { display: inline-block; margin-top: 0.75rem; background: var(--accent); color: white !important; text-decoration: none; font-weight: 700; font-size: 0.85rem; padding: 0.6rem 1.2rem; border-radius: 4px; text-align: center; width: 100%; transition: background 0.2s; box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2); }
+        .gov-link:hover { background: #1d4ed8; text-decoration: none; box-shadow: 0 4px 6px rgba(29, 78, 216, 0.3); }
+        
+        .no-data { color: #64748b; font-style: italic; padding: 1rem 0; font-size: 0.9rem; }
+
+        section { background: white; padding: 2rem; border-radius: 8px; margin-bottom: 2.5rem; border: 1px solid var(--border); }
+        section ul, section ol { padding-left: 1.25rem; }
+        section li { margin-bottom: 1rem; font-size: 0.95rem; line-height: 1.6; }
+        
+        .inline-link { color: var(--accent); text-decoration: none; font-weight: 600; }
+        .inline-link:hover { text-decoration: underline; }
+
+        footer { background: var(--primary); color: #94a3b8; padding: 3.5rem 1.5rem 2rem; font-size: 0.85rem; border-top: 4px solid var(--accent); }
+        .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2.5rem; border-bottom: 1px solid #1e293b; padding-bottom: 2.5rem; }
+        .footer-col h4 { color: #f1f5f9; margin-bottom: 1.25rem; font-size: 0.95rem; font-weight: 700; text-transform: uppercase; }
+        .footer-col ul { list-style: none; padding: 0; }
+        .footer-col ul li { margin-bottom: 0.75rem; }
+        .footer-col ul li a { color: #94a3b8; text-decoration: none; cursor: pointer; transition: color 0.2s; }
+        .footer-col ul li a:hover { color: white; }
+        
+        .copyright { text-align: center; margin-top: 2rem; color: #64748b; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>LOCAL MARKET OPPORTUNITY AI</h1>
+        <p>System Status: Auto-Pilot Active | Free Public Access Dashboard</p>
+    </header>
+
+    <nav>
+        <a href="#tenders-section">📊 Live Tenders</a>
+        <a href="#protocols">⚙️ Bid Engine</a>
+    </nav>
+
+    <div class="container">
+        
+        <div class="adsense-placeholder">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
+        <!-- Filter Panel Section -->
+        <div class="filter-panel">
+            <label for="districtFilter">📍 Region Filter:</label>
+            <select id="districtFilter" onchange="filterTenders()">
+                <option value="ALL">✨ Show All Districts (Pure Assam Grid)</option>
+                <option value="Udalguri">Udalguri (Local Core)</option>
+                <option value="Kokrajhar">Kokrajhar</option>
+                <option value="Baksa">Baksa</option>
+                <option value="Chirang">Chirang</option>
+                <option value="Kamrup">Kamrup</option>
+                <option value="Nalbari">Nalbari</option>
+            </select>
+        </div>
+
+        <h2 id="applyGuideHeader">⚙️ How to Apply (Assam State Tenders)</h2>
+
+        <!-- Tenders Grid Containers grouped by logic -->
+        <div id="tenders-section" class="budget-section">
+            <h3>📈 Micro & Small Contracts (Up to ₹50 Lakhs)</h3>
+            <div id="smallGrid" class="grid"></div>
+        </div>
+
+        <div class="budget-section">
+            <h3>🏛️ Medium Growth Contracts (₹50 Lakhs to ₹2 Crores)</h3>
+            <div id="mediumGrid" class="grid"></div>
+        </div>
+
+        <div class="budget-section">
+            <h3>💎 Mega Infrastructure Projects (Above ₹2 Crores)</h3>
+            <div id="megaGrid" class="grid"></div>
+        </div>
+
+    </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>System Logs</h4>
+                <ul>
+                    <li><a href="#">Security Matrix Active</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">© 2026 LMO-AI. Powered by Automated Data Matrix.</div>
+    </footer>
+
+    <!-- LIVE CRASH-RESISTANT WEB STORAGE FETCH ROUTING ENGINE -->
+    <script>
+    let tendersData = [];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        fetch('./tenders.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("HTTP error! Status: " + response.status);
+                }
+                return response.text(); 
+            })
+            .then(textData => {
+                let cleanedText = textData.trim();
+                
+                // MISTAKE SAFEGUARD: Agar file ke end me trailing comma "," bacha ho toh use safatitly trim karega
+                if (cleanedText.endsWith(',')) {
+                    cleanedText = cleanedText.slice(0, -1);
+                }
+                cleanedText = cleanedText.replace(/,\s*\]\s*,?$/, ']');
+                
+                const data = JSON.parse(cleanedText);
+                tendersData = Array.isArray(data) ? data : [];
+                filterTenders(); 
+            })
+            .catch(err => {
+                console.error("Database matrix sync layout error, details:", err);
+                executeFallbackUILayout();
+            });
     });
 
-    showNoDataFallback(smallCount, mediumCount, megaCount);
-}
+    function filterTenders() {
+        const districtFilterElement = document.getElementById("districtFilter");
+        const selectedDistrict = districtFilterElement ? districtFilterElement.value : "ALL";
+        const applyHeader = document.getElementById("applyGuideHeader");
 
-function showNoDataFallback(smallCount = 0, mediumCount = 0, megaCount = 0) {
-    const fallbackHTML = `<div class="no-data" style="padding:20px; text-align:center; color:#888; font-style:italic;">✨ No active automated contracts found for this selection.</div>`;
-    const smallGrid = document.getElementById("smallGrid");
-    const mediumGrid = document.getElementById("mediumGrid");
-    const megaGrid = document.getElementById("megaGrid");
+        if (applyHeader) {
+            applyHeader.innerText = selectedDistrict === "ALL" 
+                ? "⚙️ How to Apply (Assam State Tenders)" 
+                : `⚙️ How to Apply (${selectedDistrict} Regional Tenders)`;
+        }
 
-    if (smallCount === 0 && smallGrid) smallGrid.innerHTML = fallbackHTML;
-    if (mediumCount === 0 && mediumGrid) mediumGrid.innerHTML = fallbackHTML;
-    if (megaCount === 0 && megaGrid) megaGrid.innerHTML = fallbackHTML;
-}
-
-function executeFallbackUILayout() {
-    const fallbackHTML = `<div class="no-data" style="padding:20px; text-align:center; color:#c0392b; font-weight:500;">⚠️ Data file sync chal raha hai, kripya thodi der me refresh karein.</div>`;
-    ['smallGrid', 'mediumGrid', 'megaGrid'].forEach(id => {
-        const grid = document.getElementById(id);
-        if(grid) grid.innerHTML = fallbackHTML;
-    });
-}
-</script>
+        const smallGrid = document.getElementById("smallGrid");
+        const mediumGrid = document.getElementById("mediumGrid");

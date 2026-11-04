@@ -1,96 +1,146 @@
-<script>
-// Global array jisme fetch kiya hua data load hoga
-let tendersData = [];
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market System AI - Dashboard</title>
+    <!-- Agar aapki CSS pehle se hai toh use rehne dein, niche sirf script ko badla gaya hai -->
+</head>
+<body>
 
-// System load hook up sequence
-window.addEventListener('DOMContentLoaded', () => {
-    // Vercel deployment ke liye path ko perfect link kiya gaya hai
-    fetch('./tenders.json')
-        .then(response => response.json())
-        .then(data => {
-            tendersData = data;
-            filterTenders(); // Data successfully load hone ke baad render trigger hoga
-        })
-        .catch(err => {
-            console.error("Database matrix sync layout error, details:", err);
-            executeFallbackUILayout();
-        });
-});
+    <!-- Aapka purana HTML Layout (Header, Dropdowns aur Grids) yahan rahega -->
 
-// FIXED FILTER & GRID ROUTING ENGINE
-function filterTenders() {
-    const districtFilterElement = document.getElementById("districtFilter");
-    const selectedDistrict = districtFilterElement ? districtFilterElement.value : "ALL";
-    const applyHeader = document.getElementById("applyGuideHeader");
+    <!-- SAFE & UPDATED JAVASCRIPT ROUTING ENGINE -->
+    <script>
+    // Global array jisme fetch kiya hua data load hoga
+    let tendersData = [];
 
-    if (applyHeader) {
-        if (selectedDistrict === "ALL") {
-            applyHeader.innerText = "⚙️ How to Apply (Assam State Tenders)";
-        } else {
-            applyHeader.innerText = `⚙️ How to Apply (${selectedDistrict} Regional Tenders)`;
-        }
-    }
+    // System load hook up sequence
+    window.addEventListener('DOMContentLoaded', () => {
+        // Vercel deployment ke liye path ko perfect link kiya gaya hai
+        fetch('./tenders.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("HTTP error! Status: " + response.status);
+                }
+                return response.text(); // Pehle pure data ko text format me padhenge taaki extra comma theek kar sakein
+            })
+            .then(textData => {
+                let cleanedText = textData.trim();
+                
+                // MISTAKE FIX: Agar auto-script ne JSON array ke end me extra comma (,] ya },]) choda hai toh use remove karega
+                if (cleanedText.endsWith(',')) {
+                    cleanedText = cleanedText.slice(0, -1);
+                }
+                // Agar array brackets ke bahar comma hai (e.g. ], )
+                cleanedText = cleanedText.replace(/,\s*\]\s*,?$/, ']');
+                
+                // Pure safely cleaned text ko JSON object me parse karenge
+                const data = JSON.parse(cleanedText);
+                tendersData = Array.isArray(data) ? data : [];
+                
+                // Data successfully load aur clean hone ke baad render trigger hoga
+                filterTenders(); 
+            })
+            .catch(err => {
+                console.error("Database matrix sync layout error, details:", err);
+                executeFallbackUILayout();
+            });
+    });
 
-    const smallGrid = document.getElementById("smallGrid");
-    const mediumGrid = document.getElementById("mediumGrid");
-    const megaGrid = document.getElementById("megaGrid");
+    // FIXED FILTER & GRID ROUTING ENGINE
+    function filterTenders() {
+        const districtFilterElement = document.getElementById("districtFilter");
+        const selectedDistrict = districtFilterElement ? districtFilterElement.value : "ALL";
+        const applyHeader = document.getElementById("applyGuideHeader");
 
-    if(smallGrid) smallGrid.innerHTML = "";
-    if(mediumGrid) mediumGrid.innerHTML = "";
-    if(megaGrid) megaGrid.innerHTML = "";
-
-    let smallCount = 0, mediumCount = 0, megaCount = 0;
-
-    tendersData.forEach(tender => {
-        const locationLower = tender.location.toLowerCase();
-        const filterLower = selectedDistrict.toLowerCase();
-        
-        if (selectedDistrict === "ALL" || locationLower.includes(filterLower)) {
-            
-            // Currency formatting string ko logic comparison ke liye integer me badalna
-            const numericBudget = parseInt(tender.budget.replace(/[^0-9]/g, ''), 10) || 0;
-            const exactLink = tender.link ? tender.link : "https://assamtenders.gov.in/";
-
-            const cardHTML = `
-                <div class="tender-card" style="margin-bottom:15px; padding:15px; border-radius:8px; background:#fff; box-shadow:0 2px 5px rgba(0,0,0,0.05); display:flex; justify-content:space-between; align-items:center;">
-                    <div>
-                        <div class="tender-title" style="font-weight:600; font-size:1.1rem; color:#2c3e50; margin-bottom:5px;">${tender.title}</div>
-                        <div class="tender-meta" style="font-size:0.9rem; color:#7f8c8d;">
-                            <span style="margin-right:15px;"><strong>Dept:</strong> ${tender.department}</span>
-                            <span style="margin-right:15px;"><strong>Deadline:</strong> ${tender.deadline}</span>
-                            <span><strong>Win Chance:</strong> <span style="color:#27ae60; font-weight:bold;">${tender.win_probability}%</span></span>
-                        </div>
-                    </div>
-                    <div style="text-align:right; min-width:150px;">
-                        <span class="district-tag" style="background:#e8f4fd; color:#1e3c72; padding:3px 8px; border-radius:4px; font-size:0.8rem; font-weight:600; display:inline-block; margin-bottom:5px;">${tender.location}</span>
-                        <div class="tender-value" style="font-size:1.2rem; font-weight:700; color:#1e3c72; margin-bottom:8px;">${tender.budget}</div>
-                        <a href="${exactLink}" target="_blank" class="apply-btn" style="background:#1e3c72; color:#fff; text-decoration:none; padding:5px 12px; font-size:0.85rem; border-radius:4px; font-weight:600; display:inline-block;">View Portal →</a>
-                    </div>
-                </div>
-            `;
-
-            if (numericBudget <= 5000000) {
-                if(smallGrid) { smallGrid.innerHTML += cardHTML; smallCount++; }
-            } else if (numericBudget <= 20000000) {
-                if(mediumGrid) { mediumGrid.innerHTML += cardHTML; mediumCount++; }
+        if (applyHeader) {
+            if (selectedDistrict === "ALL") {
+                applyHeader.innerText = "⚙️ How to Apply (Assam State Tenders)";
             } else {
-                if(megaGrid) { megaGrid.innerHTML += cardHTML; megaCount++; }
+                applyHeader.innerText = `⚙️ How to Apply (${selectedDistrict} Regional Tenders)`;
             }
         }
-    });
 
-    const fallbackHTML = `<div class="no-data" style="padding:20px; text-align:center; color:#888; font-style:italic;">✨ No active automated contracts found for this district selection.</div>`;
-    
-    if (smallCount === 0 && smallGrid) smallGrid.innerHTML = fallbackHTML;
-    if (mediumCount === 0 && mediumGrid) mediumGrid.innerHTML = fallbackHTML;
-    if (megaCount === 0 && megaGrid) megaGrid.innerHTML = fallbackHTML;
-}
+        const smallGrid = document.getElementById("smallGrid");
+        const mediumGrid = document.getElementById("mediumGrid");
+        const megaGrid = document.getElementById("megaGrid");
 
-function executeFallbackUILayout() {
-    const fallbackHTML = `<div class="no-data" style="padding:20px; text-align:center; color:#c0392b; font-weight:500;">⚠️ Data file (tenders.json) load nahi ho payi. Kripya directory path check karein.</div>`;
-    ['smallGrid', 'mediumGrid', 'megaGrid'].forEach(id => {
-        const grid = document.getElementById(id);
-        if(grid) grid.innerHTML = fallbackHTML;
-    });
-}
-</script>
+        if(smallGrid) smallGrid.innerHTML = "";
+        if(mediumGrid) mediumGrid.innerHTML = "";
+        if(megaGrid) megaGrid.innerHTML = "";
+
+        let smallCount = 0, mediumCount = 0, megaCount = 0;
+
+        // Safety check: agar data khali ho toh block na kare
+        if (!tendersData || tendersData.length === 0) {
+            showNoDataFallback();
+            return;
+        }
+
+        tendersData.forEach(tender => {
+            // entry validation check taaki incomplete entries crash na karein
+            if (!tender || !tender.location || !tender.budget) return;
+
+            const locationLower = tender.location.toLowerCase();
+            const filterLower = selectedDistrict.toLowerCase();
+            
+            if (selectedDistrict === "ALL" || locationLower.includes(filterLower)) {
+                
+                // Currency formatting string ko logic comparison ke liye integer me badalna
+                const numericBudget = parseInt(tender.budget.replace(/[^0-9]/g, ''), 10) || 0;
+                const exactLink = tender.link ? tender.link : "https://assamtenders.gov.in";
+
+                const cardHTML = `
+                    <div class="tender-card" style="margin-bottom:15px; padding:15px; border-radius:8px; background:#fff; box-shadow:0 2px 5px rgba(0,0,0,0.05); display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <div class="tender-title" style="font-weight:600; font-size:1.1rem; color:#2c3e50; margin-bottom:5px;">${tender.title || 'Untitled Tender'}</div>
+                            <div class="tender-meta" style="font-size:0.9rem; color:#7f8c8d;">
+                                <span style="margin-right:15px;"><strong>Dept:</strong> ${tender.department || 'N/A'}</span>
+                                <span style="margin-right:15px;"><strong>Deadline:</strong> ${tender.deadline || 'N/A'}</span>
+                                <span><strong>Win Chance:</strong> <span style="color:#27ae60; font-weight:bold;">${tender.win_probability || '0'}%</span></span>
+                            </div>
+                        </div>
+                        <div style="text-align:right; min-width:150px;">
+                            <span class="district-tag" style="background:#e8f4fd; color:#1e3c72; padding:3px 8px; border-radius:4px; font-size:0.8rem; font-weight:600; display:inline-block; margin-bottom:5px;">${tender.location}</span>
+                            <div class="tender-value" style="font-size:1.2rem; font-weight:700; color:#1e3c72; margin-bottom:8px;">${tender.budget}</div>
+                            <a href="${exactLink}" target="_blank" class="apply-btn" style="background:#1e3c72; color:#fff; text-decoration:none; padding:5px 12px; font-size:0.85rem; border-radius:4px; font-weight:600; display:inline-block;">View Portal →</a>
+                        </div>
+                    </div>
+                `;
+
+                if (numericBudget <= 5000000) {
+                    if(smallGrid) { smallGrid.innerHTML += cardHTML; smallCount++; }
+                } else if (numericBudget <= 20000000) {
+                    if(mediumGrid) { mediumGrid.innerHTML += cardHTML; mediumCount++; }
+                } else {
+                    if(megaGrid) { megaGrid.innerHTML += cardHTML; megaCount++; }
+                }
+            }
+        });
+
+        // Grids empty state handler
+        showNoDataFallback(smallCount, mediumCount, megaCount);
+    }
+
+    function showNoDataFallback(smallCount = 0, mediumCount = 0, megaCount = 0) {
+        const fallbackHTML = `<div class="no-data" style="padding:20px; text-align:center; color:#888; font-style:italic;">✨ No active automated contracts found for this selection.</div>`;
+        const smallGrid = document.getElementById("smallGrid");
+        const mediumGrid = document.getElementById("mediumGrid");
+        const megaGrid = document.getElementById("megaGrid");
+
+        if (smallCount === 0 && smallGrid) smallGrid.innerHTML = fallbackHTML;
+        if (mediumCount === 0 && mediumGrid) mediumGrid.innerHTML = fallbackHTML;
+        if (megaCount === 0 && megaGrid) megaGrid.innerHTML = fallbackHTML;
+    }
+
+    function executeFallbackUILayout() {
+        const fallbackHTML = `<div class="no-data" style="padding:20px; text-align:center; color:#c0392b; font-weight:500;">⚠️ Data file (tenders.json) load karne me dikkat hui. Data sync chal raha hai, kripya thodi der me refresh karein.</div>`;
+        ['smallGrid', 'mediumGrid', 'megaGrid'].forEach(id => {
+            const grid = document.getElementById(id);
+            if(grid) grid.innerHTML = fallbackHTML;
+        });
+    }
+    </script>
+</body>
+</html>

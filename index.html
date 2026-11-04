@@ -4,20 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LOCAL MARKET OPPORTUNITY AI</title>
-    <!-- Tailwind CSS Dynamic Framework Engine -->
+    <!-- Tailwind CSS Engine -->
     <script src="https://tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cloudflare.com">
     <style>
         html { scroll-behavior: smooth; }
-        body { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); }
-        .glass-panel { background: rgba(30, 41, 59, 0.45); border: 1px solid rgba(255, 255, 255, 0.06); backdrop-filter: blur(12px); }
-        .glow-effect:hover { box-shadow: 0 0 20px rgba(20, 184, 166, 0.25); border-color: rgba(20, 184, 166, 0.4); }
+        /* Fixed Theme: Dark Carbon Gray & Emerald Green accents (No more blue override) */
+        body { background-color: #0b0f19; color: #f3f4f6; }
+        .glass-panel { background: rgba(17, 24, 39, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(12px); }
+        .glow-effect:hover { box-shadow: 0 0 20px rgba(16, 185, 129, 0.2); border-color: rgba(16, 185, 129, 0.4); }
     </style>
 </head>
-<body class="text-slate-100 min-h-screen font-sans antialiased selection:bg-teal-500 selection:text-slate-950">
+<body class="min-h-screen font-sans antialiased selection:bg-emerald-500 selection:text-slate-950">
 
-    <!-- Live System Cryptographic Status Ribbon -->
-    <div class="bg-gradient-to-r from-teal-600 via-cyan-600 to-indigo-700 text-center py-2 px-4 text-xs font-bold tracking-widest uppercase text-white shadow-lg flex flex-wrap justify-between items-center gap-2">
+    <!-- Top Status Ribbon -->
+    <div class="bg-gradient-to-r from-emerald-600 via-teal-600 to-slate-800 text-center py-2 px-4 text-xs font-bold tracking-widest uppercase text-white shadow-lg flex flex-wrap justify-between items-center gap-2">
         <div class="flex items-center gap-2 mx-auto md:mx-0">
             <span class="relative flex h-2 w-2">
                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
@@ -25,39 +26,39 @@
             </span>
             <span>Network Status: Live Fixed Government Links Cryptographic Online</span>
         </div>
-        <div class="hidden md:block text-[10px] text-teal-200">System Code: Master 35 District Dataset Fixed</div>
+        <div class="hidden md:block text-[10px] text-emerald-200">System Code: Bright Emerald Theme Active</div>
     </div>
 
     <!-- Layout Master Frame -->
     <div class="max-w-7xl mx-auto p-4 md:p-6 lg:p-8">
 
         <!-- Top Header Panel -->
-        <header class="glass-panel rounded-2xl p-6 mb-8 flex flex-col md:flex-row justify-between items-center gap-4 border-l-4 border-teal-500 shadow-xl">
+        <header class="glass-panel rounded-2xl p-6 mb-8 flex flex-col md:flex-row justify-between items-center gap-4 border-l-4 border-emerald-500 shadow-xl">
             <div>
-                <h1 class="text-2xl md:text-3xl font-black tracking-tight bg-gradient-to-r from-teal-400 via-cyan-400 to-indigo-400 bg-clip-text text-transparent flex items-center gap-3">
-                    <i class="fa-solid fa-square-poll-vertical text-teal-400"></i> LOCAL MARKET OPPORTUNITY AI
+                <h1 class="text-2xl md:text-3xl font-black tracking-tight text-white flex items-center gap-3">
+                    <i class="fa-solid fa-square-poll-vertical text-emerald-400"></i> LOCAL MARKET OPPORTUNITY AI
                 </h1>
                 <p class="text-slate-400 text-sm mt-1">
                     Assam State Public Procurement & Tender Intelligence Dashboard (All 35 Districts Grid)
                 </p>
             </div>
             <div class="flex flex-wrap gap-2 justify-center">
-                <span class="bg-teal-950/80 text-teal-400 text-xs font-bold px-3 py-1.5 rounded-full border border-teal-800/60">
+                <span class="bg-emerald-950/80 text-emerald-400 text-xs font-bold px-3 py-1.5 rounded-full border border-emerald-800/60">
                     <i class="fa-solid fa-robot mr-1 animate-pulse"></i> Auto-Pilot Active
                 </span>
             </div>
         </header>
 
-        <!-- Dynamic Controls: District Region Filter Panel -->
+        <!-- District Region Filter Panel -->
         <div class="glass-panel rounded-xl p-4 mb-8 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-md">
             <div class="flex items-center gap-2">
-                <i class="fa-solid fa-map-location-dot text-teal-400 text-lg"></i>
+                <i class="fa-solid fa-map-location-dot text-emerald-400 text-lg"></i>
                 <div>
                     <h3 class="text-sm font-bold text-slate-200">📍 Region Filter Console</h3>
                     <p class="text-slate-400 text-[11px]">Select any of the 35 districts of Assam instantly</p>
                 </div>
             </div>
-            <select id="districtFilter" class="w-full sm:w-72 bg-slate-900 border border-slate-700 text-slate-100 px-4 py-2.5 rounded-lg text-sm font-medium focus:outline-none focus:border-teal-500 transition-all cursor-pointer shadow-inner">
+            <select id="districtFilter" class="w-full sm:w-72 bg-slate-900 border border-slate-700 text-slate-100 px-4 py-2.5 rounded-lg text-sm font-medium focus:outline-none focus:border-emerald-500 transition-all cursor-pointer shadow-inner">
                 <!-- Dropdown items will auto-populate here -->
             </select>
         </div>
@@ -67,23 +68,22 @@
             
             <!-- Sidebar Grid Menu Links -->
             <aside class="space-y-6 lg:col-span-1">
-                
                 <div class="glass-panel rounded-xl p-4 shadow-md sticky top-6">
                     <h2 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4 px-2">Navigation System</h2>
                     <nav class="space-y-1">
-                        <a href="#live-tenders" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-300 hover:bg-slate-800/60 hover:text-teal-400 transition-all border-l-4 border-transparent hover:border-teal-500">
-                            <i class="fa-solid fa-chart-line w-5 text-center text-teal-400"></i> Live Tenders
+                        <a href="#live-tenders" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-300 hover:bg-slate-800/60 hover:text-emerald-400 transition-all border-l-4 border-transparent hover:border-emerald-500">
+                            <i class="fa-solid fa-chart-line w-5 text-center text-emerald-400"></i> Live Tenders
                         </a>
-                        <a href="#msme-niche" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-300 hover:bg-slate-800/60 hover:text-teal-400 transition-all border-l-4 border-transparent hover:border-teal-500">
-                            <i class="fa-solid fa-bullseye w-5 text-center text-blue-400"></i> MSME Niche
+                        <a href="#msme-niche" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-300 hover:bg-slate-800/60 hover:text-emerald-400 transition-all border-l-4 border-transparent hover:border-emerald-500">
+                            <i class="fa-solid fa-bullseye w-5 text-center text-teal-400"></i> MSME Niche
                         </a>
-                        <a href="#how-to-apply" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-300 hover:bg-slate-800/60 hover:text-teal-400 transition-all border-l-4 border-transparent hover:border-teal-500">
+                        <a href="#how-to-apply" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-300 hover:bg-slate-800/60 hover:text-emerald-400 transition-all border-l-4 border-transparent hover:border-emerald-500">
                             <i class="fa-solid fa-gears w-5 text-center text-purple-400"></i> Bid Engine
                         </a>
-                        <a href="#about-system" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-300 hover:bg-slate-800/60 hover:text-teal-400 transition-all border-l-4 border-transparent hover:border-teal-500">
+                        <a href="#about-system" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-300 hover:bg-slate-800/60 hover:text-emerald-400 transition-all border-l-4 border-transparent hover:border-emerald-500">
                             <i class="fa-solid fa-circle-info w-5 text-center text-amber-400"></i> About System
                         </a>
-                        <a href="#contact-support" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-300 hover:bg-slate-800/60 hover:text-teal-400 transition-all border-l-4 border-transparent hover:border-teal-500">
+                        <a href="#contact-support" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-300 hover:bg-slate-800/60 hover:text-emerald-400 transition-all border-l-4 border-transparent hover:border-emerald-500">
                             <i class="fa-solid fa-headset w-5 text-center text-rose-400"></i> Contact Support
                         </a>
                     </nav>
@@ -92,7 +92,7 @@
                 <!-- MSME Sub-Gateway Panel Options -->
                 <div class="glass-panel rounded-xl p-4 shadow-md">
                     <h2 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3 px-2 flex items-center gap-2">
-                        <i class="fa-solid fa-sliders text-teal-400"></i> MSME Niche Options
+                        <i class="fa-solid fa-sliders text-emerald-400"></i> MSME Niche Options
                     </h2>
                     <div class="space-y-1.5 text-xs">
                         <div class="p-2.5 bg-slate-900/50 hover:bg-slate-800/60 rounded-lg border border-slate-800/60 transition-all cursor-pointer flex justify-between items-center text-slate-200 font-medium">
@@ -103,7 +103,6 @@
                         </div>
                     </div>
                 </div>
-
             </aside>
 
             <!-- Main Content Area -->
@@ -111,27 +110,28 @@
                 <section id="live-tenders" class="space-y-4">
                     <div class="flex items-center justify-between border-b border-slate-800 pb-2">
                         <h2 class="text-lg font-bold text-slate-200 flex items-center gap-2">
-                            <i class="fa-solid fa-satellite-dish text-teal-400"></i> Live Sync Active Contracts & Tenders
+                            <i class="fa-solid fa-satellite-dish text-emerald-400"></i> Live Sync Active Contracts & Tenders
                         </h2>
                     </div>
-                    <!-- Target Injection Data Grid container -->
                     <div id="tenderCardContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <!-- Javascript will dump the 35 districts data cards here dynamically -->
+                        <!-- Content loaded dynamically via script below -->
                     </div>
                 </section>
 
-                <section id="msme-niche" class="glass-panel border-t-2 border-teal-500 rounded-xl p-5 space-y-4 shadow-md">
+                <section id="msme-niche" class="glass-panel border-t-2 border-emerald-500 rounded-xl p-5 space-y-4 shadow-md">
                     <h2 class="text-base font-bold text-slate-200 flex items-center gap-2 border-b border-slate-800 pb-2">
-                        <i class="fa-solid fa-award text-teal-400"></i> 🎯 MSME Niche Focus & Reserved Gateways
+                        <i class="fa-solid fa-award text-emerald-400"></i> 🎯 MSME Niche Focus & Reserved Gateways
                     </h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                         <div class="bg-slate-900/40 p-4 rounded-lg border border-slate-800/60">
-                            <h4 class="font-bold text-teal-400 text-xs uppercase tracking-wide mb-1">EMD Validation Rules</h4>
+                            <h4 class="font-bold text-emerald-400 text-xs uppercase tracking-wide mb-1">Emd Validation Rules</h4>
                             <p class="text-slate-300 text-xs leading-relaxed">Dynamic tender fee waivers and Earnest Money Deposit (EMD) exemptions for rural micro/small business units under active Assam state procurement lines.</p>
                         </div>
                         <div class="bg-slate-900/40 p-4 rounded-lg border border-slate-800/60">
-                            <h4 class="font-bold text-teal-400 text-xs uppercase tracking-wide mb-1">BTC Special Quotas</h4>
+                            <h4 class="font-bold text-emerald-400 text-xs uppercase tracking-wide mb-1">Btc Special Quotas</h4>
                             <p class="text-slate-300 text-xs leading-relaxed">Reserved contract clusters mapping dedicated allocations for indigenous local contractors within the Bodoland Territorial Region (BTR).</p>
                         </div>
                     </div>
                 </section>
+
+                <section id="how-to-apply" class="glass-panel border-t-2 border-teal-500 rounded-xl p-5 space-y-4 shadow-md">
